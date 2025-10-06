@@ -14,17 +14,19 @@ public class Gui {
     public static int squareSize;
     public static int marginAll;
 
+    public static int screenWidth;
+    public static int screenHeight;
+
     public static Color lightSquareColor = RayU.color( 241, 242, 249 );
     public static Color darkSquareColor  = RayU.color( 53,   53,  64 );
-
-    public static boolean isFlipped = false;
 
     public static HashMap<Character, Texture> icons = new HashMap<Character, Texture>();
 
     public static void init() {
 
-        final int screenWidth             = GetScreenWidth();
-        final int screenHeight            = GetScreenHeight();
+        screenWidth  = GetScreenWidth();
+        screenHeight = GetScreenHeight();
+
         final int smallestDimension = Math.min( screenWidth, screenHeight );
 
         marginAll = Math.max( (int) ( 0.025 * GetScreenWidth() ), (int) ( 0.025 * GetScreenHeight() ) ); // 2.5% of width
