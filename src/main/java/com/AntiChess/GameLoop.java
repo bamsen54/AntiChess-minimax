@@ -1,6 +1,7 @@
 package com.AntiChess;
 
 import static com.raylib.Raylib.*;
+import static com.raylib.Colors.*;
 
 import com.rayu.RayU;
 
