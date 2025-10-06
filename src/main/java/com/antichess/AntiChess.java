@@ -9,11 +9,11 @@ public class AntiChess {
 
         while (!WindowShouldClose()) {
 
-            update();
+            GameLoop.update();
 
             BeginDrawing();
             ClearBackground(BLACK);
-            draw();
+            GameLoop.draw();
             EndDrawing();
         }
     }
