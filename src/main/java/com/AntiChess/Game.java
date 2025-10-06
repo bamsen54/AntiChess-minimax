@@ -1,4 +1,4 @@
-package com.antichess;
+package com.AntiChess;
 
 import java.util.ArrayList;
 
