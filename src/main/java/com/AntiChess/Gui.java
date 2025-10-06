@@ -26,8 +26,6 @@ public class Gui {
 
     public static void init() {
 
-        loadTextures();
-
         screenWidth  = GetScreenWidth();
         screenHeight = GetScreenHeight();
 
@@ -38,6 +36,9 @@ public class Gui {
         squareSize     = (int) ( ( smallestDimension - 2 * marginAll ) / 8.0);
         boardPositionY = marginAll;
         boardPositionX = screenWidth / 2 - 4 * squareSize;
+
+        loadTextures();
+
     }
 
     public static void loadTextures() {
@@ -81,14 +82,36 @@ public class Gui {
 
                 else
                     DrawRectangle(x, y, squareSize, squareSize, darkSquareColor);
+            }
+        }
+    }
 
+    public static void displayPieces(Game game) {
 
-                //if( ActivePiece.col == col && ActivePiece.row == row ) {
-                //
-                //    DrawRectangle(x, y, s, s, RayU.color(0, 255, 0, 150));
-                //
-                //    continue;
-                //}
+        for( int row = 0; row < 8; row++ ) {
+
+            for( int col = 0; col < 8; col++ ) {
+
+                int x = col;
+                int y = row;
+
+                if (AntiChess.isFlipped) {
+
+                    x = 7 - col;
+                    y = 7 - row;
+                }
+
+                x = boardPositionX + x * squareSize;
+                y = boardPositionY + y * squareSize;
+
+                char type = game.board[row][col];
+
+                if( type == ' ' )
+                    continue;
+
+                Texture pieceTexture = pieceIcons.get( type );
+
+                DrawTexture( pieceTexture, x, y, WHITE );
             }
         }
     }

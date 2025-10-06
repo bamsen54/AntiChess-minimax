@@ -14,5 +14,6 @@ public class GameLoop {
     public static void draw() {
 
         Gui.draw_board();
+        Gui.displayPieces( AntiChess.mainGame );
     }
 }
