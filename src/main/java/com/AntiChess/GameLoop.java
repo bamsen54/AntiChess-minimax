@@ -41,11 +41,27 @@ public class GameLoop {
 
     public static void pickUpPiece(int colClicked, int rowClicked) {
 
+        if( !Util.isOnBoard( colClicked, rowClicked ) )
+            return;
 
+        if( AntiChess.mainGame.board[colClicked][rowClicked] == ' ' )
+            return;
+
+        final char piece = AntiChess.mainGame.board[colClicked][rowClicked];
+
+        if( Util.colorOfPiece( piece ) != AntiChess.mainGame.turn )
+            return;
+
+        // we have a piece that is same color as the current turn
+
+        ActivePiece.type  =  piece;
+        ActivePiece.col   =  colClicked;
+        ActivePiece.row   =  rowClicked;
+        ActivePiece.color =  AntiChess.mainGame.turn;
     }
 
     public static void dropPiece(int colClicked, int rowClicked) {
 
-        
+
     }
 }
