@@ -7,10 +7,13 @@ public class AntiChess {
 
     public static void run() {
 
-        while( !WindowShouldClose() ) {
+        while (!WindowShouldClose()) {
+
+            update();
 
             BeginDrawing();
-            ClearBackground( BLACK );
+            ClearBackground(BLACK);
+            draw();
             EndDrawing();
         }
     }
