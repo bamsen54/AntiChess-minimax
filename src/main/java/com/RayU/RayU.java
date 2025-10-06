@@ -41,7 +41,16 @@ public class RayU {
         return new int[] {x, y};
     }
 
-    public static void image(Image img, int x, int y, int w, int h) {
+    public static Texture loadTexture(String path, int width, int height) {
+
+        Image image = LoadImage( path );
+
+        ImageResize( image, width, height );
+
+        return LoadTextureFromImage( image );
+    }
+
+    public static void image( Image img, int x, int y, int w, int h ) {
 
         ImageResize( img, w, h );
 
