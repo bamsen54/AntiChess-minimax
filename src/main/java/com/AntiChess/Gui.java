@@ -42,32 +42,31 @@ public class Gui {
 
             for( int col = 0; col < 8; col++ ) {
 
-                final int s = squareSize;
+                int x = col;
+                int y = row;
 
-                int x, y;
+                if (AntiChess.isFlipped) {
 
-                if( AntiChess.isFlipped ) {
-                    x = Gui.boardPositionX + ( 7 - col ) * s;
-                    y = Gui.boardPositionY + ( 7 - row ) * s;
+                    x = 7 - col;
+                    y = 7 - row;
                 }
 
-                else {
-                    x = Gui.boardPositionX + col * s;
-                    y = Gui.boardPositionY + row * s;
-                }
+                x = boardPositionX + x * squareSize;
+                y = boardPositionY + y * squareSize;
 
-//                if( ActivePiece.col == col && ActivePiece.row == row ) {
-//
-//                    DrawRectangle(x, y, s, s, Raylib.color(0, 255, 0, 150));
-//
-//                    continue;
-//                }
-
-                if( ( col + row ) % 2 == 0)
-                    DrawRectangle( x, y, s, s, lightSquareColor );
+                if ((col + row) % 2 == 0)
+                    DrawRectangle(x, y, squareSize, squareSize, lightSquareColor);
 
                 else
-                    DrawRectangle( x, y, s, s, darkSquareColor );
+                    DrawRectangle(x, y, squareSize, squareSize, darkSquareColor);
+
+
+                //if( ActivePiece.col == col && ActivePiece.row == row ) {
+                //
+                //    DrawRectangle(x, y, s, s, Raylib.color(0, 255, 0, 150));
+                //
+                //    continue;
+                //}
             }
         }
     }
