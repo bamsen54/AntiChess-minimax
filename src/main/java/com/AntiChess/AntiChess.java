@@ -7,6 +7,8 @@ public class AntiChess {
 
     Game mainGame = new Game(); // game that is shown on screen
 
+    public static boolean isFlipped = false;
+
     public static void init() {
 
         Gui.init();
