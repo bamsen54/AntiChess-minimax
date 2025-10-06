@@ -1,4 +1,4 @@
-package com.RayU;
+package com.rayu;
 
 import static com.raylib.Raylib.*;
 import static com.raylib.Colors.*;
@@ -50,7 +50,7 @@ public class RayU {
         return LoadTextureFromImage( image );
     }
 
-    public static void image( Image img, int x, int y, int w, int h ) {
+    public static void image(Image img, int x, int y, int w, int h) {
 
         ImageResize( img, w, h );
 

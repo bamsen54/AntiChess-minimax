@@ -1,4 +1,4 @@
-package com.antichess;
+package com.AntiChess;
 
 import static com.raylib.Raylib.*;
 import static com.raylib.Colors.*;
@@ -9,7 +9,7 @@ public class AntiChess {
 
     public static void init() {
 
-        
+        Gui.init();
     }
 
     public static void run() {
