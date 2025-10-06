@@ -5,10 +5,11 @@ import static com.raylib.Colors.*;
 
 public class AntiChess {
 
+    Game mainGame = new Game(); // game that is shown on screen
 
     public static void init() {
 
-
+        
     }
 
     public static void run() {
