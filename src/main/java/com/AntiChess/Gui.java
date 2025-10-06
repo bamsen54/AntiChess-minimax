@@ -35,4 +35,40 @@ public class Gui {
         boardPositionY = marginAll;
         boardPositionX = screenWidth / 2 - 4 * squareSize;
     }
+
+    public static void draw_board() {
+
+        for( int row = 0; row < 8; row++ ) {
+
+            for( int col = 0; col < 8; col++ ) {
+
+                final int s = squareSize;
+
+                int x, y;
+
+                if( AntiChess.isFlipped ) {
+                    x = Gui.boardPositionX + ( 7 - col ) * s;
+                    y = Gui.boardPositionY + ( 7 - row ) * s;
+                }
+
+                else {
+                    x = Gui.boardPositionX + col * s;
+                    y = Gui.boardPositionY + row * s;
+                }
+
+//                if( ActivePiece.col == col && ActivePiece.row == row ) {
+//
+//                    DrawRectangle(x, y, s, s, Raylib.color(0, 255, 0, 150));
+//
+//                    continue;
+//                }
+
+                if( ( col + row ) % 2 == 0)
+                    DrawRectangle( x, y, s, s, lightSquareColor );
+
+                else
+                    DrawRectangle( x, y, s, s, darkSquareColor );
+            }
+        }
+    }
 }
