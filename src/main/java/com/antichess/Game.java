@@ -1,6 +1,6 @@
 package com.antichess;
 
-import java.util.ArrayList
+import java.util.ArrayList;
 
 public class Game {
 
@@ -23,5 +23,29 @@ public class Game {
     public int full_move_number = 1;
 
     // for five-fold repetition stores fen
-    ArrayList<String> history = new ArrayList<>();
+    public ArrayList<String> history = new ArrayList<>();
+
+    public String toString() {
+
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("\n");
+        builder.append("Turn: ").append(this.turn).append("\n");
+
+        for( int row = 0; row < 8; row++ ) {
+
+            for( int col = 0; col < 8; col++ ) {
+
+                if( this.board[row][col] != ' ')
+                    builder.append(this.board[row][col]);
+
+                else
+                    builder.append("+");
+            }
+
+            builder.append("\n");
+        }
+
+        return builder.toString();
+    }
 }

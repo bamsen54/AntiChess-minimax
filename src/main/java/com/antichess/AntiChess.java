@@ -5,6 +5,12 @@ import static com.raylib.Colors.*;
 
 public class AntiChess {
 
+
+    public static void init() {
+
+
+    }
+
     public static void run() {
 
         while (!WindowShouldClose()) {
