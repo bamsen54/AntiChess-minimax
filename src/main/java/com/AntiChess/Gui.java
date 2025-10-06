@@ -7,6 +7,8 @@ import static com.raylib.Colors.*;
 
 import com.rayu.RayU;
 
+import com.rayu.RayU;
+
 public class Gui {
 
     public static int boardPositionX;
@@ -20,9 +22,11 @@ public class Gui {
     public static Color lightSquareColor = RayU.color( 241, 242, 249 );
     public static Color darkSquareColor  = RayU.color( 53,   53,  64 );
 
-    public static HashMap<Character, Texture> icons = new HashMap<Character, Texture>();
+    public static HashMap<Character, Texture> pieceIcons = new HashMap<Character, Texture>();
 
     public static void init() {
+
+        loadTextures();
 
         screenWidth  = GetScreenWidth();
         screenHeight = GetScreenHeight();
@@ -34,6 +38,24 @@ public class Gui {
         squareSize     = (int) ( ( smallestDimension - 2 * marginAll ) / 8.0);
         boardPositionY = marginAll;
         boardPositionX = screenWidth / 2 - 4 * squareSize;
+    }
+
+    public static void loadTextures() {
+
+        final int s = squareSize;
+
+        pieceIcons.put( 'K', RayU.loadTexture( "icons/white-king.png",   s, s ) );
+        pieceIcons.put( 'k', RayU.loadTexture( "icons/black-king.png",   s, s ) );
+        pieceIcons.put( 'Q', RayU.loadTexture( "icons/white-queen.png",  s, s ) );
+        pieceIcons.put( 'q', RayU.loadTexture( "icons/black-queen.png",  s, s ) );
+        pieceIcons.put( 'R', RayU.loadTexture( "icons/white-rook.png",   s, s ) );
+        pieceIcons.put( 'r', RayU.loadTexture( "icons/black-rook.png",   s, s ) );
+        pieceIcons.put( 'B', RayU.loadTexture( "icons/white-bishop.png", s, s ) );
+        pieceIcons.put( 'b', RayU.loadTexture( "icons/black-bishop.png", s, s ) );
+        pieceIcons.put( 'N', RayU.loadTexture( "icons/white-knight.png", s, s ) );
+        pieceIcons.put( 'n', RayU.loadTexture( "icons/black-knight.png", s, s ) );
+        pieceIcons.put( 'P', RayU.loadTexture( "icons/white-pawn.png",   s, s ) );
+        pieceIcons.put( 'p', RayU.loadTexture( "icons/black-pawn.png",   s, s ) );
     }
 
     public static void draw_board() {
@@ -63,7 +85,7 @@ public class Gui {
 
                 //if( ActivePiece.col == col && ActivePiece.row == row ) {
                 //
-                //    DrawRectangle(x, y, s, s, Raylib.color(0, 255, 0, 150));
+                //    DrawRectangle(x, y, s, s, RayU.color(0, 255, 0, 150));
                 //
                 //    continue;
                 //}

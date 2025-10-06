@@ -5,12 +5,13 @@ import static com.raylib.Colors.*;
 
 public class AntiChess {
 
-    Game mainGame = new Game(); // game that is shown on screen
+    public static Game mainGame = new Game(); // game that is shown on screen
 
     public static boolean isFlipped = false;
 
     public static void init() {
 
+        System.out.println( mainGame );
         Gui.init();
     }
 

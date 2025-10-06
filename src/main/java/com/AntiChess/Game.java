@@ -13,7 +13,7 @@ public class Game {
                               {'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'},
                               {'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'} };
 
-    public String turn    = "white";
+    char turn    = 'w';
 
     // if en passant is possible, this is the en passant square.
     // en passant square is the square that pawn "captures" but there is no piece there
