@@ -1,6 +1,7 @@
 package com.RayU;
 
 import static com.raylib.Raylib.*;
+import static com.raylib.Colors.*;
 
 public class RayU {
 
@@ -38,5 +39,14 @@ public class RayU {
         final int y = (int) mouse.y();
 
         return new int[] {x, y};
+    }
+
+    public static void image(Image img, int x, int y, int w, int h) {
+
+        ImageResize( img, w, h );
+
+        Texture texture = LoadTextureFromImage( img );
+
+        DrawTexture( texture, x, y, WHITE );
     }
 }
