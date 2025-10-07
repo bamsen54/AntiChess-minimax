@@ -3,12 +3,12 @@ package com.AntiChess;
 // active piece is the piece that user is dragging and dropping
 public class ActivePiece {
 
-    public static Character type = null;
-    public static Integer col    = null;
-    public static Integer row    = null;
-    public static String color   = null;
+    public static Character type  = null;
+    public static Integer col     = null;
+    public static Integer row     = null;
+    public static Character color = null;
 
-    public static void set(Character _type, Integer _col, Integer _row, String _color) {
+    public static void set(Character _type, Integer _col, Integer _row, Character _color) {
 
         type  = _type;
         col   = _col;

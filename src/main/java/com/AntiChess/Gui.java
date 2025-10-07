@@ -38,7 +38,6 @@ public class Gui {
         boardPositionX = screenWidth / 2 - 4 * squareSize;
 
         loadTextures();
-
     }
 
     public static void loadTextures() {
@@ -109,10 +108,30 @@ public class Gui {
                 if( type == ' ' )
                     continue;
 
+                if( !ActivePiece.isNull() ) {
+
+                    if (row == ActivePiece.row && col == ActivePiece.col)
+                        continue;
+                }
+
                 Texture pieceTexture = pieceIcons.get( type );
 
                 DrawTexture( pieceTexture, x, y, WHITE );
             }
         }
+    }
+
+    public static void displayActivePiece() {
+
+        if( ActivePiece.isNull() )
+            return;
+
+        final int x = (int) GetMousePosition().x() - squareSize / 2;
+        final int y = (int) GetMousePosition().y() - squareSize / 2;
+
+        final char type      = ActivePiece.type;
+        Texture pieceTexture = pieceIcons.get( type );
+
+        DrawTexture( pieceTexture, x, y, WHITE );
     }
 }

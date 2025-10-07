@@ -1,0 +1,43 @@
+package com.AntiChess;
+
+import static com.raylib.Raylib.*;
+
+public class Util {
+
+    public static float mapInterval( float x, float a, float b, float alpha, float beta ) {
+
+        return alpha + ( beta - alpha ) * ( x - a ) / ( b - a );
+    }
+
+    public static boolean isOnBoard( int col, int row ) {
+
+        return col >= 0 && col < 8 && row >= 0  && row < 8;
+    }
+
+    public static char colorOfPiece(char piece) {
+
+        if( piece == ' ' )
+            return 'x';
+
+        if( Character.isUpperCase( piece ) )
+            return 'w';
+
+        else if( Character.isLowerCase( piece ) )
+            return 'b';
+
+        return ' ';
+    }
+
+    public static int[] getMouseCoordinates() {
+
+        final int x0 = Gui.boardPositionX;
+        final int y0 = Gui.boardPositionY;
+        final int bw = 8 * Gui.squareSize;
+
+        Vector2 mouse        = GetMousePosition();
+        final int colClicked = (int ) Math.floor( Util.mapInterval( mouse.x(), x0, x0 + bw, 0, 8 ) );
+        final int rowClicked = (int ) Math.floor( Util.mapInterval( mouse.y(), y0, y0 + bw, 0, 8 ) );
+
+        return new int[] {colClicked, rowClicked};
+    }
+}
