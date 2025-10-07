@@ -108,6 +108,12 @@ public class Gui {
                 if( type == ' ' )
                     continue;
 
+                if( !ActivePiece.isNull() ) {
+
+                    if (row == ActivePiece.row && col == ActivePiece.col)
+                        continue;
+                }
+
                 Texture pieceTexture = pieceIcons.get( type );
 
                 DrawTexture( pieceTexture, x, y, WHITE );

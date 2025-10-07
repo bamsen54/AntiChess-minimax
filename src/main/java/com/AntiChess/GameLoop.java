@@ -55,6 +55,12 @@ public class GameLoop {
         final int colClicked = mouse[0];
         final int rowClicked = mouse[1];
 
+        if( !Util.isOnBoard( colClicked, rowClicked ) ) {
+
+            ActivePiece.clear();
+            return;
+        }
+
         ActivePiece.clear();
     }
 }
