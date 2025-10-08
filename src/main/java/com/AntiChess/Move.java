@@ -10,7 +10,7 @@ public class Move {
     public int toCol;
     public int toRow;
 
-    public boolean capture;
+    public char captureedPiece;
     public boolean enPassant;
     public char promoteTo;
 
@@ -26,9 +26,9 @@ public class Move {
         this.toCol   = to_col;
         this.toRow   = to_row;
 
-        this.capture   = false;
-        this.enPassant = false;
-        this.promoteTo = ' ';
+        this.captureedPiece = ' ';
+        this.enPassant      = false;
+        this.promoteTo      = ' ';
     }
 
     public String toString() {
@@ -38,7 +38,7 @@ public class Move {
         tostring.append( "(" ).append( this.fromCol ).append( ", " ).append( this.fromRow ).append( ") -> " );
         tostring.append( "(" ).append( this.toCol   ).append( ", " ).append( this.toRow ).append( ") " );
 
-        if( this.capture )
+        if( this.captureedPiece != ' ' )
             tostring.append("capture ");
 
         if( this.enPassant )
