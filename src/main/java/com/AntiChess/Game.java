@@ -17,13 +17,48 @@ public class Game {
 
     // if en passant is possible, this is the en passant square.
     // en passant square is the square that pawn "captures" but there is no piece there
-    public int[] en_passant_square = {};
+    public int[] enPassantSquare = {};
 
-    public int half_move_clock  = 0;
-    public int full_move_number = 1;
+    public int halfMoveClock  = 0;
+    public int fullMoveNumber = 1;
 
     // for five-fold repetition stores fen
     public ArrayList<String> history = new ArrayList<>();
+
+    public void makeMove(Move move) {
+
+        final int fromCol    = move.fromCol;
+        final int fromRow    = move.fromRow;
+        final int toCol      = move.toCol;
+        final int toRow      = move.toRow;
+
+        this.board[fromRow][fromCol] = ' ';
+        this.board[toRow][toCol]     = move.pieceMoved;
+
+        this.switchTurn();
+    }
+
+    public void undoMove(Move move) {
+
+        final int fromCol    = move.fromCol;
+        final int fromRow    = move.fromRow;
+        final int toCol      = move.toCol;
+        final int toRow      = move.toRow;
+
+        this.board[toRow][toCol]     = ' ';
+        this.board[fromRow][fromCol] = move.pieceMoved;
+
+        this.switchTurn();
+    }
+
+    private void switchTurn() {
+
+        if( this.turn == 'w' )
+            this.turn = 'b';
+
+        else
+            this.turn = 'w';
+    }
 
     public String toString() {
 
