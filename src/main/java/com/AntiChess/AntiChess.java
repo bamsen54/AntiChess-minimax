@@ -12,9 +12,6 @@ public class AntiChess {
     public static void init() {
 
         Gui.init();
-
-        Move move = new Move( 4, 6, 4, 4 );
-        mainGame.makeMove( move );
     }
 
     public static void run() {

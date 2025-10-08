@@ -31,10 +31,22 @@ public class Game {
         final int fromRow    = move.fromRow;
         final int toCol      = move.toCol;
         final int toRow      = move.toRow;
-        final char thisPiece = board[fromRow][fromCol];
 
         this.board[fromRow][fromCol] = ' ';
-        this.board[toRow][toCol]     = thisPiece;
+        this.board[toRow][toCol]     = move.pieceMoved;
+
+        this.switchTurn();
+    }
+
+    public void undoMove(Move move) {
+
+        final int fromCol    = move.fromCol;
+        final int fromRow    = move.fromRow;
+        final int toCol      = move.toCol;
+        final int toRow      = move.toRow;
+
+        this.board[toRow][toCol]     = ' ';
+        this.board[fromRow][fromCol] = move.pieceMoved;
 
         this.switchTurn();
     }

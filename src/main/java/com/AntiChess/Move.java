@@ -5,6 +5,8 @@ package com.AntiChess;
 // whereas Moves.java makes moves and checks which moves are legal
 public class Move {
 
+    public char pieceMoved;
+
     public int fromCol;
     public int fromRow;
     public int toCol;
@@ -19,7 +21,9 @@ public class Move {
     // if a move will result in capture for the enemy
     public boolean will_lead_to_capture = false;
 
-    Move(int from_col, int from_row, int to_col, int to_row) {
+    Move(char pieceMoved, int from_col, int from_row, int to_col, int to_row) {
+
+        this.pieceMoved = pieceMoved;
 
         this.fromCol = from_col;
         this.fromRow = from_row;
