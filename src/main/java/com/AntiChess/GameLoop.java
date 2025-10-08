@@ -18,15 +18,14 @@ public class GameLoop {
 
     public static void draw() {
 
-        Gui.draw_board();
+        Gui.drawBoard();
         Gui.displayPieces( AntiChess.mainGame );
         Gui.displayActivePiece();
     }
 
     public static void pickUpPiece() {
 
-        final int[] mouse = Util.getMouseCoordinates();
-
+        final int[] mouse    = Util.getMouseCoordinates();
         final int colClicked = mouse[0];
         final int rowClicked = mouse[1];
 

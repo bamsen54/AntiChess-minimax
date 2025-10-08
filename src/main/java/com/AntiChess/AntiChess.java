@@ -11,7 +11,6 @@ public class AntiChess {
 
     public static void init() {
 
-        System.out.println( mainGame );
         Gui.init();
     }
 

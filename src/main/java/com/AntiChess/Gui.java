@@ -58,7 +58,7 @@ public class Gui {
         pieceIcons.put( 'p', RayU.loadTexture( "icons/black-pawn.png",   s, s ) );
     }
 
-    public static void draw_board() {
+    public static void drawBoard() {
 
         for( int row = 0; row < 8; row++ ) {
 
