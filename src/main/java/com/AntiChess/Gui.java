@@ -151,8 +151,17 @@ public class Gui {
 
         for( Move move : legalMoves ) {
 
-            final int x = (int) ( x0 + s * move.toCol + s / 2.0 );
-            final int y = (int) ( y0 + s * move.toRow + s / 2.0 );
+            int col = move.toCol;
+            int row = move.toRow;
+
+            if( AntiChess.isFlipped ) {
+
+                col = 7 - col;
+                row = 7 - row;
+            }
+
+            final int x = (int) ( x0 + s * col + s / 2.0 );
+            final int y = (int) ( y0 + s * row + s / 2.0 );
 
             boolean isCapture = AntiChess.mainGame.board[move.toRow][move.toCol] != ' ';
 
