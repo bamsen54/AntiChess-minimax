@@ -17,10 +17,7 @@ public class AntiChess {
 
         Move move1 = new Move('R', 1, 2, 3, 4);
 
-        ArrayList<Move> moves = new ArrayList<>();
-        moves.add(move1);
-
-        System.out.println( Util.isMoveInArrayList( moves, move1 ) );
+        System.out.println( Moves.canMoveToSquare(mainGame, 'P', 4, 6, 4, 4) );
     }
 
     public static void run() {
