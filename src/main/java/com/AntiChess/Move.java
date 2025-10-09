@@ -37,20 +37,22 @@ public class Move {
 
     public String toString() {
 
-        StringBuilder tostring = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
 
-        tostring.append( "(" ).append( this.fromCol ).append( ", " ).append( this.fromRow ).append( ") -> " );
-        tostring.append( "(" ).append( this.toCol   ).append( ", " ).append( this.toRow ).append( ") " );
+        builder.append (pieceMoved ).append(": ");
+
+        builder.append( "(" ).append( this.fromCol ).append( ", " ).append( this.fromRow ).append( ") ⟶ " );
+        builder.append( "(" ).append( this.toCol   ).append( ", " ).append( this.toRow ).append( ") " );
 
         if( this.captureedPiece != ' ' )
-            tostring.append("capture ");
+            builder.append("capture ");
 
         if( this.enPassant )
-            tostring.append("en passant ");
+            builder.append("en passant ");
 
         if( this.promoteTo != ' ' )
-            tostring.append("promote: ").append(this.promoteTo).append(" ");
+            builder.append("promote: ").append(this.promoteTo).append(" ");
 
-        return tostring.toString();
+        return builder.toString();
     }
 }
