@@ -19,7 +19,7 @@ public class Util {
     public static char colorOfPiece(char piece) {
 
         if( piece == ' ' )
-            return 'x';
+            return ' ';
 
         if( Character.isUpperCase( piece ) )
             return 'w';

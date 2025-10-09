@@ -1,5 +1,6 @@
 package com.AntiChess;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static com.raylib.Raylib.*;
@@ -15,7 +16,7 @@ public class Gui {
     public static int boardPositionY;
     public static int squareSize;
     public static int marginAll;
-
+    public static int radius;
     public static int screenWidth;
     public static int screenHeight;
 
@@ -36,6 +37,8 @@ public class Gui {
         squareSize     = (int) ( ( smallestDimension - 2 * marginAll ) / 8.0);
         boardPositionY = marginAll;
         boardPositionX = screenWidth / 2 - 4 * squareSize;
+
+        radius = (int) ( 0.15 * squareSize / 2.0 );
 
         loadTextures();
     }
@@ -133,5 +136,31 @@ public class Gui {
         Texture pieceTexture = pieceIcons.get( type );
 
         DrawTexture( pieceTexture, x, y, WHITE );
+    }
+
+    public static void highlightLegalMoves() {
+
+        if( ActivePiece.isNull() )
+            return;
+
+        final int x0 = boardPositionX;
+        final int y0 = boardPositionY;
+        final int s  = squareSize;
+
+        ArrayList<Move> legalMoves = Moves.getKingMoves( AntiChess.mainGame, ActivePiece.col, ActivePiece.row );
+
+        for( Move move : legalMoves ) {
+
+            final int x = (int) ( x0 + s * move.toCol + s / 2.0 );
+            final int y = (int) ( y0 + s * move.toRow + s / 2.0 );
+
+            boolean isCapture = AntiChess.mainGame.board[move.toRow][move.toCol] != ' ';
+
+            if( isCapture )
+                DrawRectangle( x -(int) ( s / 2.0 ), y - (int) ( s / 2.0 ), squareSize, squareSize, RED );
+
+            else
+                DrawCircle( x, y, radius, RED );
+        }
     }
 }

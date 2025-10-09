@@ -16,13 +16,9 @@ public class Moves {
         if( typeAtMoveSquare == ' ' )
             return true;
 
-        final char turn              = game.turn;
         final char colorAtMoveSquare = Util.colorOfPiece( typeAtMoveSquare );
 
-        if( turn == colorAtMoveSquare )
-            return false;
-
-        return true;
+        return Util.colorOfPiece(type) != colorAtMoveSquare;
     }
 
     public static ArrayList<Move> getKingMoves(Game game, int col, int row) {
@@ -38,9 +34,12 @@ public class Moves {
             final int newCol = col + offset[0];
             final int newRow = row + offset[1];
 
+            if( !Util.isOnBoard( newCol, newRow ) )
+                continue;
+
             final char typeAtMoveSquare = game.board[newRow][newCol];
 
-            if( canMoveToSquare( game,  typeAtMoveSquare, col, row, newCol, newRow ) )
+            if( canMoveToSquare( game, thisType, col, row, newCol, newRow ) )
                 moves.add( new Move( thisType, col, row, newCol, newRow, typeAtMoveSquare,  false, ' '  ) );
         }
 

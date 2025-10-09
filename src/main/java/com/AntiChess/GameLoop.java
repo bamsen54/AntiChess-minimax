@@ -5,6 +5,8 @@ import static com.raylib.Colors.*;
 
 import com.rayu.RayU;
 
+import java.util.ArrayList;
+
 public class GameLoop {
 
     public static void update() {
@@ -19,6 +21,7 @@ public class GameLoop {
     public static void draw() {
 
         Gui.drawBoard();
+        Gui.highlightLegalMoves();               // using info from ActivePiece
         Gui.displayPieces( AntiChess.mainGame );
         Gui.displayActivePiece();
     }
@@ -37,7 +40,6 @@ public class GameLoop {
 
         final char piece = AntiChess.mainGame.board[rowClicked][colClicked];
 
-        // for testing
         //if( Util.colorOfPiece( piece ) != AntiChess.mainGame.turn )
             //return;
 
@@ -61,9 +63,16 @@ public class GameLoop {
             return;
         }
 
+        ArrayList<Move> legalMoves = Moves.getKingMoves( AntiChess.mainGame, ActivePiece.col, ActivePiece.row );
         Move move = new Move(ActivePiece.type, ActivePiece.col, ActivePiece.row, colClicked, rowClicked);
 
-        AntiChess.mainGame.makeMove( move );
+        final char capturedPiece = AntiChess.mainGame.board[rowClicked][colClicked];
+
+        if( capturedPiece != ' ' )
+            move.capturedPiece =  capturedPiece;
+
+        if( Util.isMoveInArrayList( legalMoves, move )  )
+            AntiChess.mainGame.makeMove( move );
 
         ActivePiece.clear();
     }
