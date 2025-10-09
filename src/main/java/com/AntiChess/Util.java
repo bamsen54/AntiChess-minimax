@@ -1,5 +1,7 @@
 package com.AntiChess;
 
+import java.util.ArrayList;
+
 import static com.raylib.Raylib.*;
 
 public class Util {
@@ -26,6 +28,17 @@ public class Util {
             return 'b';
 
         return ' ';
+    }
+
+    public static boolean isMoveInArrayList( ArrayList<Move> moves, Move move ) {
+
+        for( Move m : moves ) {
+
+            if( m.equals( move ) )
+                return true;
+        }
+
+        return false;
     }
 
     public static int[] getMouseCoordinates() {

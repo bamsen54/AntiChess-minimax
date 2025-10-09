@@ -12,14 +12,9 @@ public class Move {
     public int toCol;
     public int toRow;
 
-    public char captureedPiece;
+    public char capturedPiece;
     public boolean enPassant;
     public char promoteTo;
-
-    // only used in minmax
-
-    // if a move will result in capture for the enemy
-    public boolean will_lead_to_capture = false;
 
     Move(char pieceMoved, int from_col, int from_row, int to_col, int to_row) {
 
@@ -30,9 +25,27 @@ public class Move {
         this.toCol   = to_col;
         this.toRow   = to_row;
 
-        this.captureedPiece = ' ';
+        this.capturedPiece = ' ';
         this.enPassant      = false;
         this.promoteTo      = ' ';
+    }
+
+    @Override
+    public boolean equals(Object object) {
+
+        if ( object == null || this.getClass() != object.getClass() )
+            return false;
+
+        Move move = (Move) object;
+        return
+            pieceMoved     == move.pieceMoved     &&
+            fromCol        == move.fromCol        &&
+            fromRow        == move.fromRow        &&
+            toCol          == move.toCol          &&
+            toRow          == move.toRow          &&
+            capturedPiece == move.capturedPiece &&
+            enPassant      == move.enPassant      &&
+            promoteTo      == move.promoteTo;
     }
 
     public String toString() {
@@ -44,7 +57,7 @@ public class Move {
         builder.append( "(" ).append( this.fromCol ).append( ", " ).append( this.fromRow ).append( ") ⟶ " );
         builder.append( "(" ).append( this.toCol   ).append( ", " ).append( this.toRow ).append( ") " );
 
-        if( this.captureedPiece != ' ' )
+        if( this.capturedPiece != ' ' )
             builder.append("capture ");
 
         if( this.enPassant )
