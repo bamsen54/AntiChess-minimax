@@ -16,6 +16,8 @@ public class GameLoop {
 
         else if( IsMouseButtonReleased(0) && !ActivePiece.isNull() )
             dropPiece();
+
+        keyPressed();
     }
 
     public static void draw() {
@@ -83,5 +85,11 @@ public class GameLoop {
             AntiChess.mainGame.makeMove( move );
 
         ActivePiece.clear();
+    }
+
+    public static void keyPressed() {
+
+        if( IsKeyDown( KEY_LEFT_CONTROL ) && IsKeyPressed( KEY_F ) )
+            AntiChess.isFlipped = !AntiChess.isFlipped;
     }
 }
