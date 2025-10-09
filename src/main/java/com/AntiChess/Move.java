@@ -61,6 +61,16 @@ public class Move {
             promoteTo      == move.promoteTo;
     }
 
+    // add extra info based on move
+    // extra info is capture, en passant and promotion
+    public void addExtraInfo( char type, int fromCol, int fromRow, int toCol, int toRow ) {
+
+        final char capturedPiece = AntiChess.mainGame.board[toRow][toCol];
+
+        if( capturedPiece != ' ' )
+            this.capturedPiece = capturedPiece;
+    }
+
     public String toString() {
 
         StringBuilder builder = new StringBuilder();

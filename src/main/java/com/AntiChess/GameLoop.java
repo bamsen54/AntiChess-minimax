@@ -64,12 +64,9 @@ public class GameLoop {
         }
 
         ArrayList<Move> legalMoves = Moves.getKingMoves( AntiChess.mainGame, ActivePiece.col, ActivePiece.row );
+
         Move move = new Move(ActivePiece.type, ActivePiece.col, ActivePiece.row, colClicked, rowClicked);
-
-        final char capturedPiece = AntiChess.mainGame.board[rowClicked][colClicked];
-
-        if( capturedPiece != ' ' )
-            move.capturedPiece =  capturedPiece;
+        move.addExtraInfo( ActivePiece.type, ActivePiece.col, ActivePiece.row, colClicked, rowClicked );
 
         if( Util.isMoveInArrayList( legalMoves, move )  )
             AntiChess.mainGame.makeMove( move );
