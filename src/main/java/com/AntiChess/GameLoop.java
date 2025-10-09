@@ -28,9 +28,15 @@ public class GameLoop {
 
     public static void pickUpPiece() {
 
-        final int[] mouse    = Util.getMouseCoordinates();
-        final int colClicked = mouse[0];
-        final int rowClicked = mouse[1];
+        final int[] mouse = Util.getMouseCoordinates();
+        int colClicked    = mouse[0];
+        int rowClicked    = mouse[1];
+
+        if( AntiChess.isFlipped ) {
+
+            colClicked = 7 - colClicked;
+            rowClicked = 7 - rowClicked;
+        }
 
         if( !Util.isOnBoard( colClicked, rowClicked ) )
             return;
@@ -53,9 +59,14 @@ public class GameLoop {
     public static void dropPiece() {
 
         final int[] mouse = Util.getMouseCoordinates();
+        int colClicked    = mouse[0];
+        int rowClicked    = mouse[1];
 
-        final int colClicked = mouse[0];
-        final int rowClicked = mouse[1];
+        if( AntiChess.isFlipped ) {
+
+            colClicked = 7 - colClicked;
+            rowClicked = 7 - rowClicked;
+        }
 
         if( !Util.isOnBoard( colClicked, rowClicked ) ) {
 
