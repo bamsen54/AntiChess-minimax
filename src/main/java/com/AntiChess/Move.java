@@ -16,7 +16,7 @@ public class Move {
     public boolean enPassant;
     public char promoteTo;
 
-    Move(char pieceMoved, int from_col, int from_row, int to_col, int to_row) {
+    public Move(char pieceMoved, int from_col, int from_row, int to_col, int to_row) {
 
         this.pieceMoved = pieceMoved;
 
@@ -25,9 +25,22 @@ public class Move {
         this.toCol   = to_col;
         this.toRow   = to_row;
 
-        this.capturedPiece = ' ';
-        this.enPassant      = false;
+        this.capturedPiece  = ' ';
         this.promoteTo      = ' ';
+        this.enPassant      = false;
+    }
+
+    public Move(char pieceMoved, int fromCol, int fromRow, int toCol, int toRow, char capturedPiece, boolean enPassant, char promoteTo) {
+
+        this.pieceMoved    = pieceMoved;
+        this.fromCol       = fromCol;
+        this.fromRow       = fromRow;
+        this.toCol         = toCol;
+        this.toRow         = toRow;
+
+        this.capturedPiece = capturedPiece;
+        this.enPassant     = enPassant;
+        this.promoteTo     = promoteTo;
     }
 
     @Override
@@ -43,7 +56,7 @@ public class Move {
             fromRow        == move.fromRow        &&
             toCol          == move.toCol          &&
             toRow          == move.toRow          &&
-            capturedPiece == move.capturedPiece &&
+            capturedPiece  == move.capturedPiece &&
             enPassant      == move.enPassant      &&
             promoteTo      == move.promoteTo;
     }

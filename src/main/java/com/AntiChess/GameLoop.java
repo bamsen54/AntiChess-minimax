@@ -37,8 +37,9 @@ public class GameLoop {
 
         final char piece = AntiChess.mainGame.board[rowClicked][colClicked];
 
-        if( Util.colorOfPiece( piece ) != AntiChess.mainGame.turn )
-            return;
+        // for testing
+        //if( Util.colorOfPiece( piece ) != AntiChess.mainGame.turn )
+            //return;
 
         // we have a piece that is same color as the current turn
         ActivePiece.type  =  piece;
@@ -59,6 +60,10 @@ public class GameLoop {
             ActivePiece.clear();
             return;
         }
+
+        Move move = new Move(ActivePiece.type, ActivePiece.col, ActivePiece.row, colClicked, rowClicked);
+
+        AntiChess.mainGame.makeMove( move );
 
         ActivePiece.clear();
     }
