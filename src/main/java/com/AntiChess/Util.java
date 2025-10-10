@@ -43,6 +43,9 @@ public class Util {
 
     public static boolean isSquareEmpty(Game game, int col, int row) {
 
+        if( !Util.isOnBoard( col, row ) )
+            return false;
+
         return game.board[row][col] == ' ';
     }
 
