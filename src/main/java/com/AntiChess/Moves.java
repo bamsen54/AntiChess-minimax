@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Moves {
 
-    // only checks weather toSquare is empty or have a piece of opposite color. It does not enforce capture
+    // only checks wather toSquare is empty or have a piece of opposite color. It does not enforce capture
     // also assumes that there is a piece on square fromCol, fromCol
     public static boolean canMoveToSquare(Game game, char type, int fromCol, int fromRow, int toCol, int toRow) {
 
@@ -42,6 +42,38 @@ public class Moves {
             if( canMoveToSquare( game, thisType, col, row, newCol, newRow ) )
                 moves.add( new Move( thisType, col, row, newCol, newRow, typeAtMoveSquare,  false, ' '  ) );
         }
+
+        return moves;
+    }
+
+    public static ArrayList<Move> getPawnMoves(Game game, int col, int row) {
+
+        ArrayList<Move> moves = new ArrayList<>();
+
+        final char thisType      = game.board[row][col];
+        final char colorThisType = Util.colorOfPiece( thisType );
+
+        final int moveDirection       = colorThisType == 'b' ? 1 : - 1;
+        final int startRank           = colorThisType == 'b' ? 1 : 6;
+        boolean canMoveOneStepForward = false;
+        boolean isOnStarRank          = false;
+
+        // normal move, one step forward in moveDirection
+        if( Util.isSquareEmpty( game, col, row + moveDirection )) {
+
+            moves.add(new Move(thisType, col, row, col, row + moveDirection, ' ', false, ' '));
+
+            canMoveOneStepForward = true;
+        }
+
+        if( row == startRank )
+            isOnStarRank = true;
+
+        final boolean canDoubleMove = isOnStarRank && canMoveOneStepForward;
+
+        // if on start square, can move forward two steps in moveDirection
+        if( canDoubleMove &&  Util.isSquareEmpty( game, col, row + 2 * moveDirection ) )
+            moves.add(new Move(thisType, col, row, col, row + 2 * moveDirection, ' ', false, ' '));
 
         return moves;
     }

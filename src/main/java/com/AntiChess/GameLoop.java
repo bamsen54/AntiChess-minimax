@@ -76,7 +76,7 @@ public class GameLoop {
             return;
         }
 
-        ArrayList<Move> legalMoves = Moves.getKingMoves( AntiChess.mainGame, ActivePiece.col, ActivePiece.row );
+        ArrayList<Move> legalMoves = Moves.getPawnMoves( AntiChess.mainGame, ActivePiece.col, ActivePiece.row );
 
         Move move = new Move(ActivePiece.type, ActivePiece.col, ActivePiece.row, colClicked, rowClicked);
         move.addExtraInfo( ActivePiece.type, ActivePiece.col, ActivePiece.row, colClicked, rowClicked );

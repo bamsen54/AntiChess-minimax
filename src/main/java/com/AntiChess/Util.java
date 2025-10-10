@@ -41,6 +41,11 @@ public class Util {
         return false;
     }
 
+    public static boolean isSquareEmpty(Game game, int col, int row) {
+
+        return game.board[row][col] == ' ';
+    }
+
     public static int[] getMouseCoordinates() {
 
         final int x0 = Gui.boardPositionX;
