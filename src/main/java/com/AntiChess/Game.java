@@ -35,6 +35,9 @@ public class Game {
         this.board[fromRow][fromCol] = ' ';
         this.board[toRow][toCol]     = move.pieceMoved;
 
+        if( move.promoteTo != ' ' )
+            this.board[toRow][toCol] = move.promoteTo;
+
         this.switchTurn();
     }
 

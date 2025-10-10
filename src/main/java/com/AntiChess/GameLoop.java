@@ -17,7 +17,7 @@ public class GameLoop {
         else if( IsMouseButtonReleased(0) && !ActivePiece.isNull() )
             dropPiece();
 
-        if( IsMouseButtonPressed( 0 ) && AntiChess.programState == ProgramState.PROMOTION && AntiChess.promotionMove != null )
+        if( IsMouseButtonPressed( 0 ) && AntiChess.programState == ProgramState.PROMOTION )
             promotion();
 
 
@@ -56,8 +56,8 @@ public class GameLoop {
 
         final char piece = AntiChess.mainGame.board[rowClicked][colClicked];
 
-        //if( Util.colorOfPiece( piece ) != AntiChess.mainGame.turn )
-            //return;
+        if( Util.colorOfPiece( piece ) != AntiChess.mainGame.turn )
+            return;
 
         // we have a piece that is same color as the current turn
         ActivePiece.type  =  piece;
@@ -125,6 +125,60 @@ public class GameLoop {
 
     public static void promotion() {
 
+        final int[] mouse = Util.getMouseCoordinates();
+        int colClicked    = mouse[0];
+        int rowClicked    = mouse[1];
+
+        if( AntiChess.isFlipped ) {
+
+            colClicked = 7 - colClicked;
+            rowClicked = 7 - rowClicked;
+        }
+
+        if( colClicked != AntiChess.promotionMove.toCol )
+            return;
+
+        if( AntiChess.promotionMove.toRow == 0 ) {
+
+            switch ( rowClicked ) {
+
+                case 0 -> AntiChess.promotionMove.promoteTo = 'K';
+                case 1 -> AntiChess.promotionMove.promoteTo = 'Q';
+                case 2 -> AntiChess.promotionMove.promoteTo = 'R';
+                case 3 -> AntiChess.promotionMove.promoteTo = 'B';
+                case 4 -> AntiChess.promotionMove.promoteTo = 'N';
+            }
+
+            if( AntiChess.promotionMove.promoteTo == ' ' )
+                return;
+
+            System.out.println( AntiChess.promotionMove );
+
+            AntiChess.mainGame.makeMove( AntiChess.promotionMove );
+
+            AntiChess.programState = ProgramState.PLAY;
+        }
+
+        else {
+
+            switch ( rowClicked ) {
+
+                case 7 -> AntiChess.promotionMove.promoteTo = 'k';
+                case 6 -> AntiChess.promotionMove.promoteTo = 'q';
+                case 5 -> AntiChess.promotionMove.promoteTo = 'r';
+                case 4 -> AntiChess.promotionMove.promoteTo = 'q';
+                case 3 -> AntiChess.promotionMove.promoteTo = 'k';
+            }
+
+            if( AntiChess.promotionMove.promoteTo == ' ' )
+                return;
+
+            System.out.println( AntiChess.promotionMove );
+
+            AntiChess.mainGame.makeMove( AntiChess.promotionMove );
+
+            AntiChess.programState = ProgramState.PLAY;
+        }
 
     }
 

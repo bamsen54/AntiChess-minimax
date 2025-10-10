@@ -175,20 +175,20 @@ public class Gui {
 
     public static void displayPromotionChoices() {
 
-        if( AntiChess.promotionMove == null )
+        if( AntiChess.programState != ProgramState.PROMOTION )
             return;
 
-        final int to_row = AntiChess.promotionMove.toRow;
-        final int to_col = AntiChess.promotionMove.toCol;
+        final int toRow = AntiChess.promotionMove.toRow;
+        final int toCol = AntiChess.promotionMove.toCol;
 
-        if( to_row == 0 ) {
+        if( toRow == 0 ) {
 
             char[] icons_to_draw = {'K', 'Q', 'R', 'B', 'N'};
 
             for( int k = 0; k < icons_to_draw.length; k++ ) {
 
                 int row = k;
-                int col = to_col;
+                int col = toCol;
 
                 if( AntiChess.isFlipped ) {
 
@@ -212,7 +212,7 @@ public class Gui {
         for( int k = 0; k < icons_to_draw.length; k++ ) {
 
             int row = k;
-            int col = to_col;
+            int col = toCol;
 
             if( AntiChess.isFlipped ) {
 
