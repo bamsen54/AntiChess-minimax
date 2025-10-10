@@ -4,6 +4,22 @@ import java.util.ArrayList;
 
 public class Moves {
 
+    public static ArrayList<Move> getPseudoLegalMoves(Game game, int col, int row) {
+
+        final char thisPiece = game.board[row][col];
+
+        if( thisPiece == ' ' )
+            return new ArrayList<Move>();
+
+        return switch( Character.toUpperCase( thisPiece ) ) {
+
+            case 'K' -> getKingMoves( game, col, row );
+            case 'P' -> getPawnMoves( game, col, row );
+
+            default -> new ArrayList<Move>();
+        };
+    }
+
     // only checks wather toSquare is empty or have a piece of opposite color. It does not enforce capture
     // also assumes that there is a piece on square fromCol, fromCol
     public static boolean canMoveToSquare(Game game, char type, int fromCol, int fromRow, int toCol, int toRow) {
@@ -90,7 +106,7 @@ public class Moves {
 
             if (leftIsNotEmpty && leftIsCapture) {
 
-                Move move = new Move( thisType, col, row, col - 1, row + moveDirection, ' ', false, ' ' );
+                Move move = new Move( thisType, col, row, col - 1, row + moveDirection, leftCapturedPiece, false, ' ' );
 
                 if( ( row + moveDirection ) == 0 || ( row + moveDirection ) == 7 )
                     moves.addAll( Util.getMoveListWithAllPromotions( move, colorThisType) );
@@ -106,7 +122,7 @@ public class Moves {
 
             if (rightIsNotEmpty && rightIsCapture) {
 
-                Move move = new Move( thisType, col, row, col + 1, row + moveDirection, ' ', false, ' ' );
+                Move move = new Move( thisType, col, row, col + 1, row + moveDirection, rightCapturedPiece, false, ' ' );
 
                 if( ( row + moveDirection ) == 0 || ( row + moveDirection ) == 7 )
                     moves.addAll( Util.getMoveListWithAllPromotions( move, colorThisType) );

@@ -86,36 +86,27 @@ public class GameLoop {
 
         final char thisPiece = AntiChess.mainGame.board[ActivePiece.row][ActivePiece.col];
 
-        ArrayList<Move> legalMoves = Moves.getPawnMoves( AntiChess.mainGame, ActivePiece.col, ActivePiece.row );
+        ArrayList<Move> legalMoves = Moves.getPseudoLegalMoves( AntiChess.mainGame, ActivePiece.col, ActivePiece.row );
 
         Move move = new Move(ActivePiece.type, ActivePiece.col, ActivePiece.row, colClicked, rowClicked);
         move.addExtraInfo( ActivePiece.type, ActivePiece.col, ActivePiece.row, colClicked, rowClicked );
 
-        if( thisPiece == 'P' && rowClicked == 0 ) {
+        if( ( rowClicked == 0 && thisPiece == 'P') || ( rowClicked == 7 && thisPiece == 'o' ) ) {
 
             AntiChess.programState = ProgramState.PROMOTION;
 
-            AntiChess.mainGame.board[rowClicked][colClicked] = thisPiece;
+            AntiChess.mainGame.board[rowClicked][colClicked]           = thisPiece;
             AntiChess.mainGame.board[ActivePiece.row][ActivePiece.col] = ' ';
 
             AntiChess.promotionMove = move;
 
             ActivePiece.clear();
+
             return;
         }
 
-        else if( thisPiece == 'p' && rowClicked == 7 ) {
-
-            AntiChess.programState = ProgramState.PROMOTION;
-
-            AntiChess.mainGame.board[rowClicked][colClicked] = thisPiece;
-            AntiChess.mainGame.board[ActivePiece.row][ActivePiece.col] = ' ';
-
-            AntiChess.promotionMove = move;
-
-            ActivePiece.clear();
-            return;
-        }
+        for( Move m: legalMoves )
+            System.out.println(m);
 
         if( Util.isMoveInArrayList( legalMoves, move ) )
             AntiChess.mainGame.makeMove( move );
@@ -166,8 +157,8 @@ public class GameLoop {
                 case 7 -> AntiChess.promotionMove.promoteTo = 'k';
                 case 6 -> AntiChess.promotionMove.promoteTo = 'q';
                 case 5 -> AntiChess.promotionMove.promoteTo = 'r';
-                case 4 -> AntiChess.promotionMove.promoteTo = 'q';
-                case 3 -> AntiChess.promotionMove.promoteTo = 'k';
+                case 4 -> AntiChess.promotionMove.promoteTo = 'b';
+                case 3 -> AntiChess.promotionMove.promoteTo = 'n';
             }
 
             if( AntiChess.promotionMove.promoteTo == ' ' )
