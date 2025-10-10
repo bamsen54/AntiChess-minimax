@@ -70,7 +70,7 @@ public class Move {
                 fromRow        == move.fromRow        &&
                 toCol          == move.toCol          &&
                 toRow          == move.toRow          &&
-                capturedPiece  == move.capturedPiece &&
+                capturedPiece  == move.capturedPiece  &&
                 enPassant      == move.enPassant      &&
                 promoteTo      == move.promoteTo;
     }

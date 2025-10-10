@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Game {
 
-    public char[][] board = { {'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'},
-                              {'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'},
+    public char[][] board = { {'r', 'n', 'b', 'q', 'k', 'b', 'n', ' '},
+                              {'p', 'p', 'p', 'p', 'p', 'p', 'p', 'P'},
                               {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
                               {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
                               {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},

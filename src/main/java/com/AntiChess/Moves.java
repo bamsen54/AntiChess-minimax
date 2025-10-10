@@ -61,7 +61,13 @@ public class Moves {
         // normal move, one step forward in moveDirection
         if( Util.isSquareEmpty( game, col, row + moveDirection )) {
 
-            moves.add(new Move(thisType, col, row, col, row + moveDirection, ' ', false, ' '));
+            Move move = new Move( thisType, col, row, col, row + moveDirection, ' ', false, ' ' );
+
+            if( ( row + moveDirection ) == 0 || ( row + moveDirection ) == 7 )
+                moves.addAll( Util.getMoveListWithAllPromotions( move, colorThisType) );
+
+            else
+                moves.add( move );
 
             canMoveOneStepForward = true;
         }
@@ -82,16 +88,32 @@ public class Moves {
             final boolean leftIsCapture = canMoveToSquare(game, thisType, col, row, col - 1, row + moveDirection);
             final char leftCapturedPiece = game.board[row + moveDirection][col - 1];
 
-            if (leftIsNotEmpty && leftIsCapture)
-                moves.add(new Move(thisType, col, row, col - 1, row + moveDirection, leftCapturedPiece, false, ' '));
+            if (leftIsNotEmpty && leftIsCapture) {
+
+                Move move = new Move( thisType, col, row, col - 1, row + moveDirection, ' ', false, ' ' );
+
+                if( ( row + moveDirection ) == 0 || ( row + moveDirection ) == 7 )
+                    moves.addAll( Util.getMoveListWithAllPromotions( move, colorThisType) );
+
+                else
+                    moves.add( move );
+            }
 
             // capture right
             final boolean rightIsNotEmpty = !Util.isSquareEmpty(game, col + 1, row + moveDirection);
             final boolean rightIsCapture = canMoveToSquare(game, thisType, col, row, col + 1, row + moveDirection);
             final char rightCapturedPiece = game.board[row + moveDirection][col + 1];
 
-            if (rightIsNotEmpty && rightIsCapture)
-                moves.add(new Move(thisType, col, row, col + 1, row + moveDirection, rightCapturedPiece, false, ' '));
+            if (rightIsNotEmpty && rightIsCapture) {
+
+                Move move = new Move( thisType, col, row, col + 1, row + moveDirection, ' ', false, ' ' );
+
+                if( ( row + moveDirection ) == 0 || ( row + moveDirection ) == 7 )
+                    moves.addAll( Util.getMoveListWithAllPromotions( move, colorThisType) );
+
+                else
+                    moves.add( move );
+            }
         }
 
         catch ( ArrayIndexOutOfBoundsException e ) {

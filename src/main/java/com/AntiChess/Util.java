@@ -61,4 +61,41 @@ public class Util {
 
         return new int[] {colClicked, rowClicked};
     }
+
+    public static ArrayList<Move> getMoveListWithAllPromotions(Move move, char color) {
+
+        Move promoteToKing   = move.getCopy();
+        Move promoteToQueen  = move.getCopy();
+        Move promoteToRook   = move.getCopy();
+        Move promoteToBishop = move.getCopy();
+        Move promoteToKnight = move.getCopy();
+
+        if( color == 'w' ) {
+
+            promoteToKing.promoteTo   = 'K';
+            promoteToQueen.promoteTo  = 'Q';
+            promoteToRook.promoteTo   = 'R';
+            promoteToBishop.promoteTo = 'B';
+            promoteToKnight.promoteTo = 'N';
+        }
+
+        else {
+
+            promoteToKing.promoteTo   = 'k';
+            promoteToQueen.promoteTo  = 'q';
+            promoteToRook.promoteTo   = 'r';
+            promoteToBishop.promoteTo = 'b';
+            promoteToKnight.promoteTo = 'n';
+        }
+
+        ArrayList<Move> all_promotions = new ArrayList<>();
+
+        all_promotions.add( promoteToKing );
+        all_promotions.add( promoteToQueen );
+        all_promotions.add( promoteToRook );
+        all_promotions.add( promoteToBishop );
+        all_promotions.add( promoteToKnight );
+
+        return all_promotions;
+    }
 }

@@ -81,6 +81,11 @@ public class GameLoop {
         Move move = new Move(ActivePiece.type, ActivePiece.col, ActivePiece.row, colClicked, rowClicked);
         move.addExtraInfo( ActivePiece.type, ActivePiece.col, ActivePiece.row, colClicked, rowClicked );
 
+        System.out.println("Move: " + move);
+
+        for( Move m: legalMoves )
+            System.out.println(m);
+
         if( Util.isMoveInArrayList( legalMoves, move )  )
             AntiChess.mainGame.makeMove( move );
 
