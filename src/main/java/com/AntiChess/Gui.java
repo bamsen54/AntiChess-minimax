@@ -172,4 +172,60 @@ public class Gui {
                 DrawCircle( x, y, radius, RED );
         }
     }
+
+    public static void displayPromotionChoices() {
+
+        if( AntiChess.promotionMove == null )
+            return;
+
+        final int to_row = AntiChess.promotionMove.toRow;
+        final int to_col = AntiChess.promotionMove.toCol;
+
+        if( to_row == 0 ) {
+
+            char[] icons_to_draw = {'K', 'Q', 'R', 'B', 'N'};
+
+            for( int k = 0; k < icons_to_draw.length; k++ ) {
+
+                int row = k;
+                int col = to_col;
+
+                if( AntiChess.isFlipped ) {
+
+                    col = 7 - col;
+                    row = 7 - row;
+                }
+
+                final int x = boardPositionX + col * squareSize;
+                final int y = boardPositionY + row * squareSize;
+
+                DrawRectangle( x, y, squareSize, squareSize, DARKGRAY);
+
+                DrawTexture( pieceIcons.get( icons_to_draw[k] ), x, y, WHITE) ;
+            }
+
+            return;
+        }
+
+        char[] icons_to_draw = {'k', 'q', 'r', 'b', 'n'};
+
+        for( int k = 0; k < icons_to_draw.length; k++ ) {
+
+            int row = k;
+            int col = to_col;
+
+            if( AntiChess.isFlipped ) {
+
+                col = 7 - col;
+                row = 7 - row;
+            }
+
+            final int x = boardPositionX + col       * squareSize;
+            final int y = boardPositionY + (7 - row) * squareSize;
+
+            DrawRectangle( x, y, squareSize, squareSize, DARKGRAY);
+
+            DrawTexture( pieceIcons.get( icons_to_draw[k] ), x, y, WHITE) ;
+        }
+    }
 }

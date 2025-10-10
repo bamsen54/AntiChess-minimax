@@ -17,6 +17,10 @@ public class GameLoop {
         else if( IsMouseButtonReleased(0) && !ActivePiece.isNull() )
             dropPiece();
 
+        if( IsMouseButtonPressed( 0 ) && AntiChess.programState == ProgramState.PROMOTION && AntiChess.promotionMove != null )
+            promotion();
+
+
         keyPressed();
     }
 
@@ -26,9 +30,13 @@ public class GameLoop {
         Gui.highlightLegalMoves();               // using info from ActivePiece
         Gui.displayPieces( AntiChess.mainGame );
         Gui.displayActivePiece();
+        Gui.displayPromotionChoices();
     }
 
     public static void pickUpPiece() {
+
+        if( AntiChess.programState != ProgramState.PLAY )
+            return;
 
         final int[] mouse = Util.getMouseCoordinates();
         int colClicked    = mouse[0];
@@ -76,20 +84,48 @@ public class GameLoop {
             return;
         }
 
+        final char thisPiece = AntiChess.mainGame.board[ActivePiece.row][ActivePiece.col];
+
         ArrayList<Move> legalMoves = Moves.getPawnMoves( AntiChess.mainGame, ActivePiece.col, ActivePiece.row );
 
         Move move = new Move(ActivePiece.type, ActivePiece.col, ActivePiece.row, colClicked, rowClicked);
         move.addExtraInfo( ActivePiece.type, ActivePiece.col, ActivePiece.row, colClicked, rowClicked );
 
-        System.out.println("Move: " + move);
+        if( thisPiece == 'P' && rowClicked == 0 ) {
 
-        for( Move m: legalMoves )
-            System.out.println(m);
+            AntiChess.programState = ProgramState.PROMOTION;
 
-        if( Util.isMoveInArrayList( legalMoves, move )  )
+            AntiChess.mainGame.board[rowClicked][colClicked] = thisPiece;
+            AntiChess.mainGame.board[ActivePiece.row][ActivePiece.col] = ' ';
+
+            AntiChess.promotionMove = move;
+
+            ActivePiece.clear();
+            return;
+        }
+
+        else if( thisPiece == 'p' && rowClicked == 7 ) {
+
+            AntiChess.programState = ProgramState.PROMOTION;
+
+            AntiChess.mainGame.board[rowClicked][colClicked] = thisPiece;
+            AntiChess.mainGame.board[ActivePiece.row][ActivePiece.col] = ' ';
+
+            AntiChess.promotionMove = move;
+
+            ActivePiece.clear();
+            return;
+        }
+
+        if( Util.isMoveInArrayList( legalMoves, move ) )
             AntiChess.mainGame.makeMove( move );
 
         ActivePiece.clear();
+    }
+
+    public static void promotion() {
+
+
     }
 
     public static void keyPressed() {
