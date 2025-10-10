@@ -75,6 +75,24 @@ public class Moves {
         if( canDoubleMove &&  Util.isSquareEmpty( game, col, row + 2 * moveDirection ) )
             moves.add(new Move(thisType, col, row, col, row + 2 * moveDirection, ' ', false, ' '));
 
+        // capture left
+        final boolean leftIsNotEmpty = !Util.isSquareEmpty( game, col - 1,  row + moveDirection );
+        final boolean leftIsCapture  = canMoveToSquare( game, thisType, col, row, col - 1, row + moveDirection );
+        final char leftCapturedPiece = game.board[row + moveDirection][col - 1];
+
+        if( leftIsNotEmpty && leftIsCapture )
+            moves.add(new Move(thisType, col, row, col - 1, row + moveDirection, leftCapturedPiece, false, ' '));
+
+        // capture right
+        final boolean rightIsNotEmpty = !Util.isSquareEmpty( game, col + 1,  row + moveDirection );
+        final boolean rightIsCapture  = canMoveToSquare( game, thisType, col, row, col + 1, row + moveDirection );
+        final char rightCapturedPiece = game.board[row + moveDirection][col + 1];
+
+        if( leftIsNotEmpty && leftIsCapture )
+            moves.add(new Move(thisType, col, row, col + 1, row + moveDirection, leftCapturedPiece, false, ' '));
+
+
+
         return moves;
     }
 }
