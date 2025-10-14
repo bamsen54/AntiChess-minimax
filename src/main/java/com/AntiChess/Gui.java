@@ -228,4 +228,22 @@ public class Gui {
             DrawTexture( pieceIcons.get( icons_to_draw[k] ), x, y, WHITE) ;
         }
     }
+
+    public static void displayEnPassantSquare(Game game) {
+
+        if( game.enPassantSquare.length == 0 )
+            return;
+
+        final int x0 = boardPositionX;
+        final int y0 = boardPositionY;
+        final int s  = squareSize;
+
+        final int colEnPassant = AntiChess.mainGame.enPassantSquare[0];
+        final int rowEnPassant = AntiChess.mainGame.enPassantSquare[1];
+
+        final int x = x0 + s * colEnPassant;
+        final int y = y0 + s * rowEnPassant;
+
+        DrawRectangle( x, y, s, s, GREEN );
+    }
 }

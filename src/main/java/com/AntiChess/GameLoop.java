@@ -1,9 +1,8 @@
 package com.AntiChess;
 
+import static com.raylib.Colors.GREEN;
+import static com.raylib.Colors.YELLOW;
 import static com.raylib.Raylib.*;
-import static com.raylib.Colors.*;
-
-import com.rayu.RayU;
 
 import java.util.ArrayList;
 
@@ -21,6 +20,7 @@ public class GameLoop {
             promotion();
 
 
+
         keyPressed();
     }
 
@@ -29,8 +29,11 @@ public class GameLoop {
         Gui.drawBoard();
         Gui.highlightLegalMoves();               // using info from ActivePiece
         Gui.displayPieces( AntiChess.mainGame );
+        Gui.displayEnPassantSquare( AntiChess.mainGame );
         Gui.displayActivePiece();
         Gui.displayPromotionChoices();
+
+
     }
 
     public static void pickUpPiece() {
@@ -89,27 +92,16 @@ public class GameLoop {
         ArrayList<Move> legalMoves = Moves.getPseudoLegalMoves( AntiChess.mainGame, ActivePiece.col, ActivePiece.row );
 
         Move move = new Move(ActivePiece.type, ActivePiece.col, ActivePiece.row, colClicked, rowClicked);
+        handlePawnPromotionAndEnPassant(thisPiece, colClicked, rowClicked, move);
         move.addExtraInfo( ActivePiece.type, ActivePiece.col, ActivePiece.row, colClicked, rowClicked );
 
-        if( ( rowClicked == 0 && thisPiece == 'P') || ( rowClicked == 7 && thisPiece == 'o' ) ) {
-
-            AntiChess.programState = ProgramState.PROMOTION;
-
-            AntiChess.mainGame.board[rowClicked][colClicked]           = thisPiece;
-            AntiChess.mainGame.board[ActivePiece.row][ActivePiece.col] = ' ';
-
-            AntiChess.promotionMove = move;
-
-            ActivePiece.clear();
-
-            return;
-        }
 
         for( Move m: legalMoves )
             System.out.println(m);
 
         if( Util.isMoveInArrayList( legalMoves, move ) )
             AntiChess.mainGame.makeMove( move );
+
 
         ActivePiece.clear();
     }
@@ -170,7 +162,19 @@ public class GameLoop {
 
             AntiChess.programState = ProgramState.PLAY;
         }
+    }
 
+    public static void handlePawnPromotionAndEnPassant(char thisPiece, int colClicked, int rowClicked, Move move) {
+
+        if( ( rowClicked == 0 && thisPiece == 'P') || ( rowClicked == 7 && thisPiece == 'o' ) ) {
+
+            AntiChess.programState = ProgramState.PROMOTION;
+
+            AntiChess.mainGame.board[rowClicked][colClicked]           = thisPiece;
+            AntiChess.mainGame.board[ActivePiece.row][ActivePiece.col] = ' ';
+
+            AntiChess.promotionMove = move;
+        }
     }
 
     public static void keyPressed() {

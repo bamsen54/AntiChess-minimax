@@ -38,6 +38,32 @@ public class Game {
         if( move.promoteTo != ' ' )
             this.board[toRow][toCol] = move.promoteTo;
 
+        // if a pawn moves, check if pawn moved two squares, did this create a en passant square
+        this.enPassantSquare = new int[] {}; // when player does not do en passant it is removed
+        if( move.pieceMoved == 'P' ) {
+
+            if( Util.isOnBoard( toCol, toRow + 1 ) ) {
+
+                if (Math.abs(toRow - fromRow) == 2 && this.board[toRow][toCol - 1] == 'p')
+                    this.enPassantSquare = new int[]{toCol, toRow + 1};
+
+                if (Math.abs(toRow - fromRow) == 2 && this.board[toRow][toCol + 1] == 'p')
+                    this.enPassantSquare = new int[]{toCol, toRow + 1};
+            }
+        }
+
+        else if( move.pieceMoved == 'p' ) {
+
+            if( Util.isOnBoard( toCol, toRow - 1 ) ) {
+
+                if (Math.abs(toRow - fromRow) == 2 && this.board[toRow][toCol - 1] == 'P')
+                    this.enPassantSquare = new int[]{toCol, toRow - 1};
+
+                if (Math.abs(toRow - fromRow) == 2 && this.board[toRow][toCol + 1] == 'P')
+                    this.enPassantSquare = new int[]{toCol, toRow - 1};
+            }
+        }
+
         this.switchTurn();
     }
 
