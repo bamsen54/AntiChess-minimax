@@ -32,8 +32,6 @@ public class GameLoop {
         Gui.displayEnPassantSquare( AntiChess.mainGame );
         Gui.displayActivePiece();
         Gui.displayPromotionChoices();
-
-
     }
 
     public static void pickUpPiece() {
@@ -92,9 +90,8 @@ public class GameLoop {
         ArrayList<Move> legalMoves = Moves.getPseudoLegalMoves( AntiChess.mainGame, ActivePiece.col, ActivePiece.row );
 
         Move move = new Move(ActivePiece.type, ActivePiece.col, ActivePiece.row, colClicked, rowClicked);
-        handlePawnPromotionAndEnPassant(thisPiece, colClicked, rowClicked, move);
+        handlePawnPromotion(thisPiece, colClicked, rowClicked, move);
         move.addExtraInfo( ActivePiece.type, ActivePiece.col, ActivePiece.row, colClicked, rowClicked );
-
 
         for( Move m: legalMoves )
             System.out.println(m);
@@ -164,9 +161,13 @@ public class GameLoop {
         }
     }
 
-    public static void handlePawnPromotionAndEnPassant(char thisPiece, int colClicked, int rowClicked, Move move) {
+    public static void handlePawnPromotion(char thisPiece, int colClicked, int rowClicked, Move move) {
 
-        if( ( rowClicked == 0 && thisPiece == 'P') || ( rowClicked == 7 && thisPiece == 'o' ) ) {
+        final ArrayList<Move> legalMoves = Moves.getPseudoLegalMoves( AntiChess.mainGame, colClicked, rowClicked );
+        if( !Util.isMoveInArrayList( legalMoves, move ) )
+            return;
+
+        if( ( rowClicked == 0 && thisPiece == 'P') || ( rowClicked == 7 && thisPiece == 'p' ) ) {
 
             AntiChess.programState = ProgramState.PROMOTION;
 
