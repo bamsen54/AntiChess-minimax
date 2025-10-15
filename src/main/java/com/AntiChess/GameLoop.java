@@ -17,19 +17,20 @@ public class GameLoop {
             dropPiece();
 
         if( IsMouseButtonPressed( 0 ) && AntiChess.programState == ProgramState.PROMOTION )
-            promotion();
-
-
+            promotionChoice();
 
         keyPressed();
+
+
     }
 
     public static void draw() {
 
         Gui.drawBoard();
+        Gui.displayEnPassantSquare( AntiChess.mainGame );
         Gui.highlightLegalMoves();               // using info from ActivePiece
         Gui.displayPieces( AntiChess.mainGame );
-        Gui.displayEnPassantSquare( AntiChess.mainGame );
+
         Gui.displayActivePiece();
         Gui.displayPromotionChoices();
     }
@@ -90,8 +91,8 @@ public class GameLoop {
         ArrayList<Move> legalMoves = Moves.getPseudoLegalMoves( AntiChess.mainGame, ActivePiece.col, ActivePiece.row );
 
         Move move = new Move(ActivePiece.type, ActivePiece.col, ActivePiece.row, colClicked, rowClicked);
-        handlePawnPromotion(thisPiece, colClicked, rowClicked, move);
-        move.addExtraInfo( ActivePiece.type, ActivePiece.col, ActivePiece.row, colClicked, rowClicked );
+        handlePawnPromotion( thisPiece, colClicked, rowClicked, move ) ;
+        handleExtra( ActivePiece.type, ActivePiece.col, ActivePiece.row, colClicked, rowClicked, move ) ;
 
         for( Move m: legalMoves )
             System.out.println(m);
@@ -99,11 +100,38 @@ public class GameLoop {
         if( Util.isMoveInArrayList( legalMoves, move ) )
             AntiChess.mainGame.makeMove( move );
 
-
+        handlePawnPromotion( thisPiece, colClicked, rowClicked, move ) ;
         ActivePiece.clear();
     }
 
-    public static void promotion() {
+    private static void handleExtra(char type, int col, int row, int colClicked, int rowClicked, Move move) {
+
+        if( AntiChess.mainGame.board[rowClicked][colClicked] != ' ' )
+            move.capturedPiece =  AntiChess.mainGame.board[rowClicked][colClicked];
+
+        // if a pawn moves diagonally but doesn't capture, it is en passant
+        if( ( Character.toUpperCase( type ) == 'P' ) && ( col != colClicked ) && ( move.capturedPiece == ' ' ) ) {
+
+            move.enPassant     = true;
+            move.capturedPiece = type == 'P' ? 'p' : 'P';
+
+        }
+    }
+
+    public static void handlePawnPromotion(char thisPiece, int colClicked, int rowClicked, Move move) {
+
+        if( ( rowClicked == 0 && thisPiece == 'P') || ( rowClicked == 7 && thisPiece == 'p' ) ) {
+
+            AntiChess.programState = ProgramState.PROMOTION;
+
+            AntiChess.mainGame.board[rowClicked][colClicked]           = thisPiece;
+            AntiChess.mainGame.board[ActivePiece.row][ActivePiece.col] = ' ';
+
+            AntiChess.promotionMove = move;
+        }
+    }
+
+    public static void promotionChoice() {
 
         final int[] mouse = Util.getMouseCoordinates();
         int colClicked    = mouse[0];
@@ -158,23 +186,6 @@ public class GameLoop {
             AntiChess.mainGame.makeMove( AntiChess.promotionMove );
 
             AntiChess.programState = ProgramState.PLAY;
-        }
-    }
-
-    public static void handlePawnPromotion(char thisPiece, int colClicked, int rowClicked, Move move) {
-
-        final ArrayList<Move> legalMoves = Moves.getPseudoLegalMoves( AntiChess.mainGame, colClicked, rowClicked );
-        if( !Util.isMoveInArrayList( legalMoves, move ) )
-            return;
-
-        if( ( rowClicked == 0 && thisPiece == 'P') || ( rowClicked == 7 && thisPiece == 'p' ) ) {
-
-            AntiChess.programState = ProgramState.PROMOTION;
-
-            AntiChess.mainGame.board[rowClicked][colClicked]           = thisPiece;
-            AntiChess.mainGame.board[ActivePiece.row][ActivePiece.col] = ' ';
-
-            AntiChess.promotionMove = move;
         }
     }
 

@@ -136,6 +136,24 @@ public class Moves {
             // do not add those moves
         }
 
+        if( game.enPassantSquare.length != 2 )
+            return moves;
+
+        if( Character.toUpperCase( thisType) != 'P' )
+            return moves;
+
+        final int enPassantCol  = game.enPassantSquare[0];
+        final int  enPassantRow = game.enPassantSquare[1];
+
+        final char capturedPiece = thisType == 'P' ? 'p' : 'P'; // pawn but other color
+
+        // essentially if pawn can "capture" en passant square, then it can move to that square
+        if( enPassantCol == col - 1 && enPassantRow == row + moveDirection )
+            moves.add( new Move( thisType, col, row, col - 1, row + moveDirection, capturedPiece, true, ' ' ) );
+
+        if( enPassantCol == col + 1 && enPassantRow == row + moveDirection )
+            moves.add( new Move( thisType, col, row, col + 1, row + moveDirection, capturedPiece, true, ' ' ) );
+
         return moves;
     }
 }

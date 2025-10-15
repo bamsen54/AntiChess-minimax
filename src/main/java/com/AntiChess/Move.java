@@ -47,15 +47,15 @@ public class Move {
         this.promoteTo     = promoteTo;
     }
 
-    // add extra info based on move
-    // extra info is capture, en passant and promotion
-    public void addExtraInfo( char type, int fromCol, int fromRow, int toCol, int toRow ) {
-
-        final char capturedPiece = AntiChess.mainGame.board[toRow][toCol];
-
-        if( capturedPiece != ' ' )
-            this.capturedPiece = capturedPiece;
-    }
+//    // add extra info based on move
+//    // extra info is capture, en passant and promotion
+//    public void addExtraInfo( char type, int fromCol, int fromRow, int toCol, int toRow ) {
+//
+//        final char capturedPiece = AntiChess.mainGame.board[toRow][toCol];
+//
+//        if( capturedPiece != ' ' )
+//            this.capturedPiece = capturedPiece;
+//    }
 
     @Override
     public boolean equals(Object object) {
@@ -71,8 +71,8 @@ public class Move {
                 toCol          == move.toCol          &&
                 toRow          == move.toRow          &&
                 capturedPiece  == move.capturedPiece  &&
-                enPassant      == move.enPassant      &&
-                promoteTo      == move.promoteTo;
+                enPassant      == move.enPassant;
+
     }
 
     public Move getCopy() {
