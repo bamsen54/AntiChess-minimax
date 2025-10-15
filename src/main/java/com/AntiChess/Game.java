@@ -32,11 +32,27 @@ public class Game {
         final int toCol      = move.toCol;
         final int toRow      = move.toRow;
 
+        // en pasant capture
+
+
+        if( move.pieceMoved == 'P' && move.capturedPiece == 'p' && this.board[toRow][toCol] == ' ') {
+
+            this.board[toRow + 1][toCol] = ' ';
+        }
+
+        if( move.pieceMoved == 'p' && move.capturedPiece == 'P' && this.board[toRow][toCol] == ' ') {
+
+            this.board[toRow - 1][toCol] = ' ';
+        }
+
+
         this.board[fromRow][fromCol] = ' ';
         this.board[toRow][toCol]     = move.pieceMoved;
 
         if( move.promoteTo != ' ' )
             this.board[toRow][toCol] = move.promoteTo;
+
+
 
         // if a pawn moves, check if pawn moved two squares, did this create a en passant square
         this.enPassantSquare = new int[] {}; // when player does not do en passant it is removed
