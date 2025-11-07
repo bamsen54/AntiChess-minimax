@@ -13,11 +13,12 @@ public class Moves {
 
         return switch( Character.toUpperCase( thisPiece ) ) {
 
-            case 'K' -> getKingMoves(    game, col, row );
-            case 'P' -> getPawnMoves(    game, col, row );
-            case 'Q' -> getQueenMoves(   game, col, row );
-            case 'R' -> getRookMoves(    game, col, row );
-            case 'B' -> getBishopMoves(  game, col, row );
+            case 'K' -> getKingMoves(   game, col, row );
+            case 'P' -> getPawnMoves(   game, col, row );
+            case 'Q' -> getQueenMoves(  game, col, row );
+            case 'R' -> getRookMoves(   game, col, row );
+            case 'B' -> getBishopMoves( game, col, row );
+            case 'N' -> getKnightMoves( game, col, row );
 
             default -> new ArrayList<>();
         };
@@ -196,6 +197,41 @@ public class Moves {
     public static ArrayList<Move> getBishopMoves(Game game, int col, int row) {
 
         return getPossibleMovesDiagonal( game, col, row );
+    }
+
+    public static ArrayList<Move> getKnightMoves(Game game, int col, int row) {
+
+        ArrayList<Move> pseudoLegalMoves = new ArrayList<>();
+
+        final char thisPiece        = game.board[row][col];
+        final char colorOfThisPiece = Util.colorOfPiece( thisPiece );
+
+        int[] steps = { - 2, - 1, 1, 2 };
+
+        for( int rowDiff: steps ) {
+
+            for( int colDiff: steps ) {
+
+                if( Math.abs( rowDiff ) == Math.abs( colDiff ) )
+                    continue;
+
+                final int newCol = col + colDiff;
+                final int newRow = row + rowDiff;
+
+                if( !Util.isOnBoard( newCol, newRow ) )
+                    continue;
+
+                final char pieceAt        = game.board[newRow][newCol];
+                final char colorOfPieceAt = Util.colorOfPiece(  pieceAt );
+
+                if(  colorOfThisPiece == colorOfPieceAt  )
+                    continue;
+
+                pseudoLegalMoves.add( new Move( thisPiece, col, row, newCol, newRow, pieceAt, false, ' ' ) );
+            }
+        }
+
+        return pseudoLegalMoves;
     }
 
     // for a piece on (col, row) how many steps can it move in the direction (colDirection, rowDirection)
