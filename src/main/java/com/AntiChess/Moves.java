@@ -13,10 +13,11 @@ public class Moves {
 
         return switch( Character.toUpperCase( thisPiece ) ) {
 
-            case 'K' -> getKingMoves(  game, col, row );
-            case 'P' -> getPawnMoves(  game, col, row );
-            case 'Q' -> getQueenMoves( game, col, row );
-            case 'R' -> getRookMoves(  game, col, row );
+            case 'K' -> getKingMoves(    game, col, row );
+            case 'P' -> getPawnMoves(    game, col, row );
+            case 'Q' -> getQueenMoves(   game, col, row );
+            case 'R' -> getRookMoves(    game, col, row );
+            case 'B' -> getBishopMoves(  game, col, row );
 
             default -> new ArrayList<>();
         };
@@ -190,6 +191,11 @@ public class Moves {
     public static ArrayList<Move> getRookMoves(Game game, int col, int row) {
 
         return getPossibleMovesStraight( game, col, row );
+    }
+
+    public static ArrayList<Move> getBishopMoves(Game game, int col, int row) {
+
+        return getPossibleMovesDiagonal( game, col, row );
     }
 
     // for a piece on (col, row) how many steps can it move in the direction (colDirection, rowDirection)
