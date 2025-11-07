@@ -120,7 +120,13 @@ public class GameLoop {
 
     public static void handlePawnPromotion(char thisPiece, int colClicked, int rowClicked, Move move) {
 
-        if( ( rowClicked == 0 && thisPiece == 'P') || ( rowClicked == 7 && thisPiece == 'p' ) ) {
+        if( ActivePiece.isNull() )
+            return;
+
+        boolean canPromote = ( rowClicked == 0 && thisPiece == 'P' && ActivePiece.row == 1 );
+                canPromote = canPromote || rowClicked == 7 && thisPiece == 'p' && ActivePiece.row == 6;
+
+        if( canPromote ) {
 
             AntiChess.programState = ProgramState.PROMOTION;
 
