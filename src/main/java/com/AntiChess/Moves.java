@@ -20,6 +20,24 @@ public class Moves {
         };
     }
 
+    public static ArrayList<Move> getLegalMoves(Game game, int col, int row) {
+
+        ArrayList<Move> legalMoves        = new ArrayList<>();
+        ArrayList<Move> pseudoLegalMoves = getPseudoLegalMoves( game, col, row );
+
+        boolean canCapture = Util.isCapturePossible( game, game.turn );
+        if( !canCapture )
+            return pseudoLegalMoves; // in this case pseudo legal moves are the same as the legal moves
+
+        for( Move move : pseudoLegalMoves ) {
+
+            if( move.capturedPiece != ' ' )
+                legalMoves.add( move );
+        }
+
+        return legalMoves;
+    }
+
     // only checks wather toSquare is empty or have a piece of opposite color. It does not enforce capture
     // also assumes that there is a piece on square fromCol, fromCol
     public static boolean canMoveToSquare(Game game, char type, int fromCol, int fromRow, int toCol, int toRow) {

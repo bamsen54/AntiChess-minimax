@@ -147,7 +147,8 @@ public class Gui {
         final int y0 = boardPositionY;
         final int s  = squareSize;
 
-        ArrayList<Move> legalMoves = Moves.getPseudoLegalMoves( AntiChess.mainGame, ActivePiece.col, ActivePiece.row );
+        ArrayList<Move> legalMoves = Moves.getLegalMoves( AntiChess.mainGame, ActivePiece.col, ActivePiece.row );
+
 
         for( Move move : legalMoves ) {
 

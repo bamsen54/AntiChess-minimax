@@ -13,6 +13,8 @@ public class AntiChess {
 
     public static Move promotionMove;
 
+    public static boolean forceAlternatingTurns = true;
+
     public static boolean isFlipped = false;
 
     public static void init() {

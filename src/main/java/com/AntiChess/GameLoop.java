@@ -58,7 +58,7 @@ public class GameLoop {
 
         final char piece = AntiChess.mainGame.board[rowClicked][colClicked];
 
-        if( Util.colorOfPiece( piece ) != AntiChess.mainGame.turn )
+        if( Util.colorOfPiece( piece ) != AntiChess.mainGame.turn && AntiChess.forceAlternatingTurns )
             return;
 
         // we have a piece that is same color as the current turn
@@ -88,7 +88,7 @@ public class GameLoop {
 
         final char thisPiece = AntiChess.mainGame.board[ActivePiece.row][ActivePiece.col];
 
-        ArrayList<Move> legalMoves = Moves.getPseudoLegalMoves( AntiChess.mainGame, ActivePiece.col, ActivePiece.row );
+        ArrayList<Move> legalMoves = Moves.getLegalMoves( AntiChess.mainGame, ActivePiece.col, ActivePiece.row );
 
         Move move = new Move(ActivePiece.type, ActivePiece.col, ActivePiece.row, colClicked, rowClicked);
         handlePawnPromotion( thisPiece, colClicked, rowClicked, move ) ;

@@ -98,4 +98,26 @@ public class Util {
 
         return all_promotions;
     }
+
+    public static boolean isCapturePossible(Game game, char color) {
+
+        for( int row = 0; row < 8; row++ ) {
+
+            for( int col = 0; col < 8; col++ ) {
+
+                if( Util.colorOfPiece( game.board[row][col] ) != color )
+                    continue;
+
+                ArrayList<Move> pseudoLegalMoves = Moves.getPseudoLegalMoves( game, col, row );
+
+                for( Move move: pseudoLegalMoves ) {
+
+                    if( move.capturedPiece != ' ' )
+                        return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }

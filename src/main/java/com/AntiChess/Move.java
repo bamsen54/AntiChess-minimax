@@ -17,7 +17,6 @@ public class Move {
     public char promoteTo;
 
     public Move() {
-
     }
 
     public Move(char pieceMoved, int from_col, int from_row, int to_col, int to_row) {
