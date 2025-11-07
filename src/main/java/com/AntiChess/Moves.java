@@ -15,6 +15,7 @@ public class Moves {
 
             case 'K' -> getKingMoves( game, col, row );
             case 'P' -> getPawnMoves( game, col, row );
+            case 'Q' -> getQueenMoves( game, col, row );
 
             default -> new ArrayList<Move>();
         };
@@ -26,7 +27,7 @@ public class Moves {
         ArrayList<Move> pseudoLegalMoves = getPseudoLegalMoves( game, col, row );
 
         boolean canCapture = Util.isCapturePossible( game, game.turn );
-        if( !canCapture )
+        if( !canCapture || !AntiChess.mandatoryCapture )
             return pseudoLegalMoves; // in this case pseudo legal moves are the same as the legal moves
 
         for( Move move : pseudoLegalMoves ) {
@@ -173,5 +174,75 @@ public class Moves {
             moves.add( new Move( thisType, col, row, col + 1, row + moveDirection, capturedPiece, true, ' ' ) );
 
         return moves;
+    }
+
+    public static ArrayList<Move> getQueenMoves(Game game, int col, int row) {
+
+        ArrayList<Move> pseudoLegalMoves = new ArrayList<>();
+
+        pseudoLegalMoves.addAll( getPossibleMovesStraight( game, col, row) );
+        pseudoLegalMoves.addAll( getPossibleMovesDiagonal( game, col, row) );
+
+        return pseudoLegalMoves;
+    }
+
+    // for a piece on (col, row) how many steps can it move in the direction (colDirection, rowDirection)
+    // used for queen, rook and bishop.
+    public static ArrayList<Move> getPossibleMovesInDirection(Game game, int col, int row, int colDirection, int rowDirection  ) {
+
+        ArrayList<Move> pseudoLegalMoves = new ArrayList<>();
+
+        final char thisPiece        = game.board[row][col];
+        final char colorOfThisPiece = Util.colorOfPiece( thisPiece );
+
+        // amount of steps from (col, row) in the direction (colDirection, rowDirection)
+        // (newCol, newRow) = step * (colDirection, rowDirection) in mathematical vector notation
+        for( int step = 1; step < 8; step++ ) {
+
+            final int newCol = col + step * colDirection;
+            final int newRow = row + step * rowDirection;
+
+            if( !Util.isOnBoard( newCol, newRow ) )
+                return pseudoLegalMoves;
+
+            final char pieceAt        = game.board[newRow][newCol];
+            final char colorOfPieceAt = Util.colorOfPiece( game.board[newRow][newCol] );
+
+            if( pieceAt == ' ' )
+                pseudoLegalMoves.add( new Move( thisPiece, col, row, newCol, newRow ) );
+
+            else if( colorOfPieceAt != colorOfThisPiece) {
+                pseudoLegalMoves.add( new Move(thisPiece, col, row, newCol, newRow, pieceAt, false, ' '));
+                return pseudoLegalMoves;
+            }
+
+            else return pseudoLegalMoves;
+        }
+
+        return pseudoLegalMoves;
+    }
+
+    public static ArrayList<Move> getPossibleMovesStraight(Game game, int col, int row) {
+
+        ArrayList<Move> pseudoLegalMoves = new ArrayList<>();
+
+        pseudoLegalMoves.addAll( getPossibleMovesInDirection( game, col, row,   0,   - 1 ) ); // N
+        pseudoLegalMoves.addAll( getPossibleMovesInDirection( game, col, row,   1,     0 ) ); // E
+        pseudoLegalMoves.addAll( getPossibleMovesInDirection( game, col, row,   0,     1 ) ); // S;
+        pseudoLegalMoves.addAll( getPossibleMovesInDirection( game, col, row, - 1,     0 ) ); // W
+
+        return pseudoLegalMoves;
+    }
+
+    public static ArrayList<Move> getPossibleMovesDiagonal(Game game, int col, int row) {
+
+        ArrayList<Move> pseudoLegalMoves = new ArrayList<>();
+
+        pseudoLegalMoves.addAll( getPossibleMovesInDirection( game, col, row,   1,   - 1 ) ); // NE
+        pseudoLegalMoves.addAll( getPossibleMovesInDirection( game, col, row,   1,     1 ) ); // SE
+        pseudoLegalMoves.addAll( getPossibleMovesInDirection( game, col, row, - 1,     1 ) ); // SW;
+        pseudoLegalMoves.addAll( getPossibleMovesInDirection( game, col, row, - 1,   - 1 ) ); // NW
+
+        return pseudoLegalMoves;
     }
 }

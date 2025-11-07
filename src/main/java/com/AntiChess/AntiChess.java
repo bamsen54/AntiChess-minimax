@@ -13,7 +13,9 @@ public class AntiChess {
 
     public static Move promotionMove;
 
+    // game parameters
     public static boolean forceAlternatingTurns = true;
+    public static boolean mandatoryCapture      = true;
 
     public static boolean isFlipped = false;
 
