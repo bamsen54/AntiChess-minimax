@@ -16,6 +16,9 @@ public class Move {
     public boolean enPassant;
     public char promoteTo;
 
+    public Move() {
+    }
+
     public Move(char pieceMoved, int from_col, int from_row, int to_col, int to_row) {
 
         this.pieceMoved = pieceMoved;
@@ -43,6 +46,16 @@ public class Move {
         this.promoteTo     = promoteTo;
     }
 
+//    // add extra info based on move
+//    // extra info is capture, en passant and promotion
+//    public void addExtraInfo( char type, int fromCol, int fromRow, int toCol, int toRow ) {
+//
+//        final char capturedPiece = AntiChess.mainGame.board[toRow][toCol];
+//
+//        if( capturedPiece != ' ' )
+//            this.capturedPiece = capturedPiece;
+//    }
+
     @Override
     public boolean equals(Object object) {
 
@@ -51,14 +64,30 @@ public class Move {
 
         Move move = (Move) object;
         return
-            pieceMoved     == move.pieceMoved     &&
-            fromCol        == move.fromCol        &&
-            fromRow        == move.fromRow        &&
-            toCol          == move.toCol          &&
-            toRow          == move.toRow          &&
-            capturedPiece  == move.capturedPiece &&
-            enPassant      == move.enPassant      &&
-            promoteTo      == move.promoteTo;
+                pieceMoved     == move.pieceMoved     &&
+                fromCol        == move.fromCol        &&
+                fromRow        == move.fromRow        &&
+                toCol          == move.toCol          &&
+                toRow          == move.toRow          &&
+                capturedPiece  == move.capturedPiece  &&
+                enPassant      == move.enPassant;
+
+    }
+
+    public Move getCopy() {
+
+        Move newMove = new Move();
+
+        newMove.pieceMoved    = pieceMoved;
+        newMove.fromCol       = fromCol;
+        newMove.fromRow       = fromRow;
+        newMove.toCol         = toCol;
+        newMove.toRow         = toRow;
+        newMove.capturedPiece = capturedPiece;
+        newMove.enPassant     = enPassant;
+        newMove.promoteTo     = promoteTo;
+
+        return newMove;
     }
 
     public String toString() {

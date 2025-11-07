@@ -19,7 +19,7 @@ public class Util {
     public static char colorOfPiece(char piece) {
 
         if( piece == ' ' )
-            return 'x';
+            return ' ';
 
         if( Character.isUpperCase( piece ) )
             return 'w';
@@ -41,6 +41,14 @@ public class Util {
         return false;
     }
 
+    public static boolean isSquareEmpty(Game game, int col, int row) {
+
+        if( !Util.isOnBoard( col, row ) )
+            return false;
+
+        return game.board[row][col] == ' ';
+    }
+
     public static int[] getMouseCoordinates() {
 
         final int x0 = Gui.boardPositionX;
@@ -52,5 +60,64 @@ public class Util {
         final int rowClicked = (int ) Math.floor( Util.mapInterval( mouse.y(), y0, y0 + bw, 0, 8 ) );
 
         return new int[] {colClicked, rowClicked};
+    }
+
+    public static ArrayList<Move> getMoveListWithAllPromotions(Move move, char color) {
+
+        Move promoteToKing   = move.getCopy();
+        Move promoteToQueen  = move.getCopy();
+        Move promoteToRook   = move.getCopy();
+        Move promoteToBishop = move.getCopy();
+        Move promoteToKnight = move.getCopy();
+
+        if( color == 'w' ) {
+
+            promoteToKing.promoteTo   = 'K';
+            promoteToQueen.promoteTo  = 'Q';
+            promoteToRook.promoteTo   = 'R';
+            promoteToBishop.promoteTo = 'B';
+            promoteToKnight.promoteTo = 'N';
+        }
+
+        else {
+
+            promoteToKing.promoteTo   = 'k';
+            promoteToQueen.promoteTo  = 'q';
+            promoteToRook.promoteTo   = 'r';
+            promoteToBishop.promoteTo = 'b';
+            promoteToKnight.promoteTo = 'n';
+        }
+
+        ArrayList<Move> all_promotions = new ArrayList<>();
+
+        all_promotions.add( promoteToKing );
+        all_promotions.add( promoteToQueen );
+        all_promotions.add( promoteToRook );
+        all_promotions.add( promoteToBishop );
+        all_promotions.add( promoteToKnight );
+
+        return all_promotions;
+    }
+
+    public static boolean isCapturePossible(Game game, char color) {
+
+        for( int row = 0; row < 8; row++ ) {
+
+            for( int col = 0; col < 8; col++ ) {
+
+                if( Util.colorOfPiece( game.board[row][col] ) != color )
+                    continue;
+
+                ArrayList<Move> pseudoLegalMoves = Moves.getPseudoLegalMoves( game, col, row );
+
+                for( Move move: pseudoLegalMoves ) {
+
+                    if( move.capturedPiece != ' ' )
+                        return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

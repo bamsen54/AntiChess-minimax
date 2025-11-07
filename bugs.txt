@@ -1,0 +1,5 @@
+
+non fixed bugs
+
+fixed bugs
+Pawn can move to final rank and promote fixed

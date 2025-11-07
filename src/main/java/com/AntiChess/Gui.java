@@ -1,5 +1,6 @@
 package com.AntiChess;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static com.raylib.Raylib.*;
@@ -15,7 +16,7 @@ public class Gui {
     public static int boardPositionY;
     public static int squareSize;
     public static int marginAll;
-
+    public static int radius;
     public static int screenWidth;
     public static int screenHeight;
 
@@ -36,6 +37,8 @@ public class Gui {
         squareSize     = (int) ( ( smallestDimension - 2 * marginAll ) / 8.0);
         boardPositionY = marginAll;
         boardPositionX = screenWidth / 2 - 4 * squareSize;
+
+        radius = (int) ( 0.15 * squareSize / 2.0 );
 
         loadTextures();
     }
@@ -133,5 +136,115 @@ public class Gui {
         Texture pieceTexture = pieceIcons.get( type );
 
         DrawTexture( pieceTexture, x, y, WHITE );
+    }
+
+    public static void highlightLegalMoves() {
+
+        if( ActivePiece.isNull() )
+            return;
+
+        final int x0 = boardPositionX;
+        final int y0 = boardPositionY;
+        final int s  = squareSize;
+
+        ArrayList<Move> legalMoves = Moves.getLegalMoves( AntiChess.mainGame, ActivePiece.col, ActivePiece.row );
+
+
+        for( Move move : legalMoves ) {
+
+            int col = move.toCol;
+            int row = move.toRow;
+
+            if( AntiChess.isFlipped ) {
+
+                col = 7 - col;
+                row = 7 - row;
+            }
+
+            final int x = (int) ( x0 + s * col + s / 2.0 );
+            final int y = (int) ( y0 + s * row + s / 2.0 );
+
+            boolean isCapture = AntiChess.mainGame.board[move.toRow][move.toCol] != ' ';
+
+            if( isCapture )
+                DrawRectangle( x -(int) ( s / 2.0 ), y - (int) ( s / 2.0 ), squareSize, squareSize, RED );
+
+            else
+                DrawCircle( x, y, radius, RED );
+        }
+    }
+
+    public static void displayPromotionChoices() {
+
+        if( AntiChess.programState != ProgramState.PROMOTION )
+            return;
+
+        final int toRow = AntiChess.promotionMove.toRow;
+        final int toCol = AntiChess.promotionMove.toCol;
+
+        if( toRow == 0 ) {
+
+            char[] icons_to_draw = {'K', 'Q', 'R', 'B', 'N'};
+
+            for( int k = 0; k < icons_to_draw.length; k++ ) {
+
+                int row = k;
+                int col = toCol;
+
+                if( AntiChess.isFlipped ) {
+
+                    col = 7 - col;
+                    row = 7 - row;
+                }
+
+                final int x = boardPositionX + col * squareSize;
+                final int y = boardPositionY + row * squareSize;
+
+                DrawRectangle( x, y, squareSize, squareSize, DARKGRAY);
+
+                DrawTexture( pieceIcons.get( icons_to_draw[k] ), x, y, WHITE) ;
+            }
+
+            return;
+        }
+
+        char[] icons_to_draw = {'k', 'q', 'r', 'b', 'n'};
+
+        for( int k = 0; k < icons_to_draw.length; k++ ) {
+
+            int row = k;
+            int col = toCol;
+
+            if( AntiChess.isFlipped ) {
+
+                col = 7 - col;
+                row = 7 - row;
+            }
+
+            final int x = boardPositionX + col       * squareSize;
+            final int y = boardPositionY + (7 - row) * squareSize;
+
+            DrawRectangle( x, y, squareSize, squareSize, DARKGRAY);
+
+            DrawTexture( pieceIcons.get( icons_to_draw[k] ), x, y, WHITE) ;
+        }
+    }
+
+    public static void displayEnPassantSquare(Game game) {
+
+        if( game.enPassantSquare.length == 0 )
+            return;
+
+        final int x0 = boardPositionX;
+        final int y0 = boardPositionY;
+        final int s  = squareSize;
+
+        final int colEnPassant = AntiChess.mainGame.enPassantSquare[0];
+        final int rowEnPassant = AntiChess.mainGame.enPassantSquare[1];
+
+        final int x = x0 + s * colEnPassant;
+        final int y = y0 + s * rowEnPassant;
+
+        DrawRectangle( x, y, s, s, GREEN );
     }
 }
