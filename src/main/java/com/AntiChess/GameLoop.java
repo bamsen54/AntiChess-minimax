@@ -102,6 +102,10 @@ public class GameLoop {
 
         handlePawnPromotion( thisPiece, colClicked, rowClicked, move ) ;
         ActivePiece.clear();
+
+        AntiChess.moveHistory.add( move );
+
+        AntiChess.latestMove = move;
     }
 
     private static void handleExtra(char type, int col, int row, int colClicked, int rowClicked, Move move) {
@@ -199,5 +203,15 @@ public class GameLoop {
 
         if( IsKeyDown( KEY_LEFT_CONTROL ) && IsKeyPressed( KEY_F ) )
             AntiChess.isFlipped = !AntiChess.isFlipped;
+
+        if( IsKeyPressed( KEY_SPACE ) ) {
+
+            try {
+                AntiChess.mainGame.undoMove(AntiChess.moveHistory.getLast());
+                AntiChess.moveHistory.removeLast();
+            }
+
+            catch( Exception e ) {}
+        }
     }
 }

@@ -1,8 +1,11 @@
 package com.AntiChess;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Game {
+
 
     public char[][] board = { {'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'},
                               {'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'},
@@ -22,8 +25,17 @@ public class Game {
     public int halfMoveClock  = 0;
     public int fullMoveNumber = 1;
 
+    public List<Integer> halfMoveClockHistory;
+    public List<int[]> enPassantSquareHistory = new ArrayList<>();
+
     // for five-fold repetition stores fen
     public ArrayList<String> history = new ArrayList<>();
+
+    public Game() {
+
+        halfMoveClockHistory = new ArrayList<>();
+        halfMoveClockHistory.add( 0 );
+    }
 
     public void makeMove(Move move) {
 
@@ -33,8 +45,6 @@ public class Game {
         final int toRow      = move.toRow;
 
         // en pasant capture
-
-
         if( move.pieceMoved == 'P' && move.capturedPiece == 'p' && this.board[toRow][toCol] == ' ') {
 
             this.board[toRow + 1][toCol] = ' ';
@@ -83,20 +93,68 @@ public class Game {
             }
         }
 
+        int newHalfMoveNumber = 0;
+
+        // counter goes to 0
+        if( move.pieceMoved == 'p' || move.pieceMoved == 'P' || move.capturedPiece != ' ' ) {
+            newHalfMoveNumber = 0;
+        }
+
+        else
+            newHalfMoveNumber = this.halfMoveClock + 1;
+
+        IO.println( newHalfMoveNumber );
+        this.halfMoveClockHistory.add( newHalfMoveNumber );
+        this.halfMoveClock = newHalfMoveNumber;
+
+        if( enPassantSquare.length == 2 )
+            enPassantSquareHistory.add( enPassantSquare );
+
+        else
+            enPassantSquareHistory .add( new int[] {} );
+
         this.switchTurn();
     }
 
     public void undoMove(Move move) {
 
-        final int fromCol    = move.fromCol;
-        final int fromRow    = move.fromRow;
-        final int toCol      = move.toCol;
-        final int toRow      = move.toRow;
+        try {
 
-        this.board[toRow][toCol]     = ' ';
-        this.board[fromRow][fromCol] = move.pieceMoved;
+            final int fromCol = move.fromCol;
+            final int fromRow = move.fromRow;
+            final int toCol = move.toCol;
+            final int toRow = move.toRow;
 
-        this.switchTurn();
+            this.board[toRow][toCol] = ' ';
+            this.board[fromRow][fromCol] = move.pieceMoved;
+
+            if (this.halfMoveClockHistory.size() > 0)
+                this.halfMoveClock = this.halfMoveClockHistory.remove(halfMoveClockHistory.size() - 2);
+
+            else
+                this.halfMoveClock = 0;
+
+            if (this.enPassantSquareHistory.get(this.enPassantSquareHistory.size() - 2).length == 2)
+                this.enPassantSquare = this.enPassantSquareHistory.get(this.enPassantSquareHistory.size() - 2);
+
+            else
+                this.enPassantSquare = new int[]{};
+
+            this.enPassantSquareHistory.removeLast();
+
+            if( move.enPassant ) {
+
+                if( Util.colorOfPiece( move.pieceMoved ) == 'w' )
+                    this.board[toRow + 1][toCol] = 'p';
+
+                else
+                    this.board[toRow - 1][toCol] = 'P';
+            }
+
+            this.switchTurn();
+        }
+
+        catch ( RuntimeException e ) {}
     }
 
     private void switchTurn() {
